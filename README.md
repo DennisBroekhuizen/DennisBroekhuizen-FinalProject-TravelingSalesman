@@ -52,7 +52,7 @@ The user must be able to:
 
 ### Similar apps
 [Route Maker](https://itunes.apple.com/nl/app/route-maker-route-planner/id966111128?mt=8):
-App that let's you create route and optimize them. Disadvantage: can't export route to a navigation app. Can't save routes to a calander for easy use as a businessman.
+App that let's you create routes and optimize them. Disadvantage: can't export route to a navigation app. Can't save routes to a calander for easy use as a businessman.
 
 [Webiste optimap](http://www.gebweb.net/optimap/):
 Online simular solution. Hard to use on mobile phones. Only can save routes as a link. 
