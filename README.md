@@ -33,21 +33,22 @@ The user must be able to:
 
 ### Minimum viable product
 * Add addresses to plan a route
-* Save routes
+* Save routes to a calander
 * Travel with an ordered efficient route by exporting the route to Google Maps or Apple Maps
 
 ### Optional features
 * Import addresses contacts or a file
 * Save routes on a calander
 * Share addresses
+* Share live location
 
 ## Prerequisites
 
 ### Data sources
-Google Directions API: https://developers.google.com/maps/documentation/directions/intro#Waypoints
+[Google Directions API](https://developers.google.com/maps/documentation/directions/intro#Waypoints)
 
 ### External components
-Firebase to save and share information
+[Firebase](https://firebase.google.com/) to save and share information
 
 ### Similar apps
 
