@@ -35,6 +35,7 @@ The user must be able to:
 * Add addresses to plan a route
 * Save routes to a calander
 * Travel with an ordered efficient route by exporting the route to Google Maps or Apple Maps
+* When the route is started by the user, show checkmarks at visited places by checking a users current location when reopening the app. Resume the journey by picking the last checkmarked place and the next place in the list.
 
 ### Optional features
 * Import addresses contacts or a file
