@@ -1,7 +1,7 @@
 # Dennis Broekhuizen Traveling Salesman App Design
 
 ## Advanced sketch
-
+![alt text](https://raw.githubusercontent.com/DennisBroekhuizen/DennisBroekhuizen-FinalProject-TravelingSalesman/master/AppDesign.png)
 
 ## Utility modules, classes and functions
 * Class loginViewController
@@ -15,9 +15,13 @@
 
 * Class addressesViewController
   * func addAddress: add addresses to the addressbook
+  * func editAddress: edit addresses
+  * func deleteAddress: delete addresses
 
 * Class routesViewController
   * func startRoute: start created route
+  * func editRoute: edit routes
+  * func delete route: delete routes
 
 ## APIs
 The main API that will be used is the Google Maps API and mainly sub parts of it. The Google Directions API will respond with an optimized route of given addresses by the user. The Google Places API will come in handy for verifying real existing addresses that the user meant to use. It will also provide autocomplete prediction.
