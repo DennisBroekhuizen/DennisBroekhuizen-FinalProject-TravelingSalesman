@@ -1,15 +1,26 @@
 //
-//  RegisterViewController.swift
+//  MainViewController.swift
 //  TravelingSalesman
 //
-//  Created by Dennis Broekhuizen on 11-01-18.
+//  Created by Dennis Broekhuizen on 15-01-18.
 //  Copyright © 2018 Dennis Broekhuizen. All rights reserved.
 //
 
 import UIKit
+import FirebaseAuth
 
-class RegisterViewController: UIViewController {
+class MainViewController: UIViewController {
 
+    @IBAction func signOutTapped(_ sender: Any) {
+        // Try to logout.
+        do {
+            try Auth.auth().signOut()
+            dismiss(animated: true, completion: nil)
+            print("Logged out successfully.")
+        } catch {
+            print("Something went wrong while logging out.")
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 
