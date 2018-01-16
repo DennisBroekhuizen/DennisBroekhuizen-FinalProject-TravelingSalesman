@@ -12,9 +12,13 @@
 		420DFA9420039FFB002C5B4A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 420DFA9220039FFB002C5B4A /* Main.storyboard */; };
 		420DFA9620039FFB002C5B4A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 420DFA9520039FFB002C5B4A /* Assets.xcassets */; };
 		420DFA9920039FFB002C5B4A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 420DFA9720039FFB002C5B4A /* LaunchScreen.storyboard */; };
+		4235D9C9200E5C95000285BC /* StartingPointCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4235D9C8200E5C95000285BC /* StartingPointCell.swift */; };
 		426F178E200A91B700C3EE30 /* Arciform.otf in Resources */ = {isa = PBXBuildFile; fileRef = 426F178D200A91B700C3EE30 /* Arciform.otf */; };
 		427E5353200CE68700CF5EB5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 427E5352200CE68700CF5EB5 /* GoogleService-Info.plist */; };
 		427E5355200CF41600CF5EB5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427E5354200CF41600CF5EB5 /* MainViewController.swift */; };
+		427E5357200D15A500CF5EB5 /* PlanRouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427E5356200D15A500CF5EB5 /* PlanRouteViewController.swift */; };
+		427E535B200D522B00CF5EB5 /* DestinationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427E535A200D522B00CF5EB5 /* DestinationCell.swift */; };
+		42B3A1C0200E1D2900C884C4 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B3A1BF200E1D2900C884C4 /* DateCell.swift */; };
 		42E94F852007B3CB00FE5DCA /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E94F842007B3CB00FE5DCA /* RegisterViewController.swift */; };
 		42E94F8720080D1D00FE5DCA /* PlannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E94F8620080D1D00FE5DCA /* PlannerViewController.swift */; };
 		42E94F892008103900FE5DCA /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E94F882008103900FE5DCA /* Route.swift */; };
@@ -29,9 +33,13 @@
 		420DFA9520039FFB002C5B4A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		420DFA9820039FFB002C5B4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		420DFA9A20039FFB002C5B4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4235D9C8200E5C95000285BC /* StartingPointCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingPointCell.swift; sourceTree = "<group>"; };
 		426F178D200A91B700C3EE30 /* Arciform.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Arciform.otf; sourceTree = "<group>"; };
 		427E5352200CE68700CF5EB5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		427E5354200CF41600CF5EB5 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		427E5356200D15A500CF5EB5 /* PlanRouteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanRouteViewController.swift; sourceTree = "<group>"; };
+		427E535A200D522B00CF5EB5 /* DestinationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationCell.swift; sourceTree = "<group>"; };
+		42B3A1BF200E1D2900C884C4 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DateCell.swift; path = TravelingSalesman/Models/DateCell.swift; sourceTree = SOURCE_ROOT; };
 		42E94F842007B3CB00FE5DCA /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		42E94F8620080D1D00FE5DCA /* PlannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerViewController.swift; sourceTree = "<group>"; };
 		42E94F882008103900FE5DCA /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
@@ -106,6 +114,9 @@
 			isa = PBXGroup;
 			children = (
 				42E94F882008103900FE5DCA /* Route.swift */,
+				427E535A200D522B00CF5EB5 /* DestinationCell.swift */,
+				42B3A1BF200E1D2900C884C4 /* DateCell.swift */,
+				4235D9C8200E5C95000285BC /* StartingPointCell.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -117,6 +128,7 @@
 				42E94F842007B3CB00FE5DCA /* RegisterViewController.swift */,
 				42E94F8620080D1D00FE5DCA /* PlannerViewController.swift */,
 				427E5354200CF41600CF5EB5 /* MainViewController.swift */,
+				427E5356200D15A500CF5EB5 /* PlanRouteViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -273,10 +285,14 @@
 			files = (
 				42E94F852007B3CB00FE5DCA /* RegisterViewController.swift in Sources */,
 				42E94F8720080D1D00FE5DCA /* PlannerViewController.swift in Sources */,
+				427E535B200D522B00CF5EB5 /* DestinationCell.swift in Sources */,
 				420DFA9120039FFB002C5B4A /* LoginViewController.swift in Sources */,
+				42B3A1C0200E1D2900C884C4 /* DateCell.swift in Sources */,
 				427E5355200CF41600CF5EB5 /* MainViewController.swift in Sources */,
+				4235D9C9200E5C95000285BC /* StartingPointCell.swift in Sources */,
 				42E94F892008103900FE5DCA /* Route.swift in Sources */,
 				420DFA8F20039FFB002C5B4A /* AppDelegate.swift in Sources */,
+				427E5357200D15A500CF5EB5 /* PlanRouteViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

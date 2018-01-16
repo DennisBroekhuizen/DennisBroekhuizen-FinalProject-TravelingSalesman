@@ -1,0 +1,6 @@
+framework module Pods_TravelingSalesman {
+  umbrella header "Pods-TravelingSalesman-umbrella.h"
+
+  export *
+  module * { export * }
+}
