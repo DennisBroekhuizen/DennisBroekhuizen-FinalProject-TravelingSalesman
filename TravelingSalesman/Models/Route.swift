@@ -9,7 +9,10 @@
 import Foundation
 
 struct Route {
-    var date: Date
+    var name: String
+    var date: String
+    var startingPoint: String
+    var destinations: [String]
     
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()

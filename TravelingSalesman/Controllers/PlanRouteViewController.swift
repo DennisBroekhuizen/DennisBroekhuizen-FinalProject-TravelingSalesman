@@ -10,34 +10,36 @@ import UIKit
 import GooglePlaces
 
 class PlanRouteViewController: UITableViewController {
-
+    
+    // Declaration of variables.
+    var sectionTitles: [String] = ["Route name", "Date", "Starting point", "Destinations"]
+    var sectionSelected: Int?
     var isPickerHidden = true
-    var places: [String] = []
-    var rowSelected: Int?
     var startingPoint: String = "Choose starting point"
+    var places: [String] = []
+    var route = Route.init(name: "Test route", date: "2018-01-17 14:46:25 +0000", startingPoint: "Gorinchem", destinations: ["Amsterdam", "Rotterdam"])
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        // Remove row seperator line for unfilled rows.
         tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
+    // Change height for date cell when selected.
     override func tableView(_ tableView: UITableView, heightForRowAt
         indexPath: IndexPath) -> CGFloat {
         let normalCellHeight = CGFloat(44)
         let largeCellHeight = CGFloat(200)
         
         switch(indexPath) {
-        case [1,0]: //Date Cell
-            return isPickerHidden ? normalCellHeight:
-            largeCellHeight
-            
+        case [1,0]:
+            return isPickerHidden ? normalCellHeight: largeCellHeight
         default: return normalCellHeight
         }
     }
 
-    // MARK: - Table view data source
-
+    // Declaration of sections and rows in tableView.
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 5
     }
@@ -50,6 +52,7 @@ class PlanRouteViewController: UITableViewController {
         }
     }
 
+    // Declaration of tableView.
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch (indexPath.section) {
         case 0:
@@ -80,34 +83,68 @@ class PlanRouteViewController: UITableViewController {
         return UITableViewCell()
     }
     
+    // Declaration of section titles in tableView.
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section >= 0 && section <= 3 {
+            return sectionTitles[section]
+        } else {
+            return nil
+        }
+    }
+    
+    // Handling selection of rows in tableView.
     override func tableView(_ tableView: UITableView, didSelectRowAt
         indexPath: IndexPath) {
         switch (indexPath) {
         case [1,0]:
             isPickerHidden = !isPickerHidden
-//            DateCell.dateLabel.textColor = isPickerHidden ? .black : tableView.tintColor
             tableView.beginUpdates()
             tableView.endUpdates()
-//            tableView.reloadData()
         case [2,0]:
-            rowSelected = 2
+            sectionSelected = 2
             let autocompleteController = GMSAutocompleteViewController()
             autocompleteController.delegate = self
             present(autocompleteController, animated: true, completion: nil)
         case [4,0]:
-            rowSelected = 4
+            sectionSelected = 4
             let autocompleteController = GMSAutocompleteViewController()
             autocompleteController.delegate = self
             present(autocompleteController, animated: true, completion: nil)
-
-            print(places)
             
         default: break
         }
     }
     
+    // Override to support conditional editing of the table view.
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.section == 3 {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    // Override to support editing the table view.
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            places.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
+    // Pass data to next viewController.
+    override func prepare(for segue: UIStoryboardSegue, sender:
+        Any?) {
+        if segue.identifier == "optimizeSegue" {
+            let optimizeRouteViewController = segue.destination as! OptimizeRouteViewController
+            optimizeRouteViewController.optimizedRoute = route
+        }
+    }
+    
 }
 
+// Google Places autocomplete API.
 extension PlanRouteViewController: GMSAutocompleteViewControllerDelegate {
     
     // Handle the user's selection.
@@ -115,27 +152,23 @@ extension PlanRouteViewController: GMSAutocompleteViewControllerDelegate {
         print("Place name: \(place.name)")
         print("Place address: \(String(describing: place.formattedAddress))")
         print("Place attributions: \(String(describing: place.attributions))")
-        print("Place cor: \(place.coordinate)")
-        if rowSelected == 2 {
+        
+        // Change starting point.
+        if sectionSelected == 2 {
             print("starting point")
             startingPoint = place.formattedAddress!
             tableView.reloadData()
         }
-        if rowSelected == 4 {
+        
+        // Add destination to route.
+        if sectionSelected == 4 {
             places.append(place.formattedAddress!)
             let indexPath = IndexPath(row: places.count - 1, section: 3)
             tableView.beginUpdates()
             tableView.insertRows(at: [indexPath], with: .automatic)
             tableView.endUpdates()
         }
-        
-        //        insertDestination()
-        
-        // Update startingPointLabel
-//        startingPointLabel.text = place.formattedAddress
-//        startingPointLabel.textColor = nil
-        
-//        destinationLabel.textColor = nil
+    
         dismiss(animated: true, completion: nil)
     }
     
