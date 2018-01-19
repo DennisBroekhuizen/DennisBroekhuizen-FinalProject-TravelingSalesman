@@ -15,9 +15,10 @@ class PlanRouteViewController: UITableViewController {
     var sectionTitles: [String] = ["Route name", "Date", "Starting point", "Destinations"]
     var sectionSelected: Int?
     var isPickerHidden = true
+    var routeName: String?
+    var date: String?
     var startingPoint: String = "Choose starting point"
     var places: [String] = []
-    var route = Route.init(name: "Test route", date: "2018-01-17 14:46:25 +0000", startingPoint: "Gorinchem", destinations: ["Amsterdam", "Rotterdam"])
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +57,9 @@ class PlanRouteViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch (indexPath.section) {
         case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "routeNameCell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "routeNameCell", for: indexPath) as! RouteNameCell
+            cell.configure(text: "")
+            routeName = cell.textField.text
 
             return cell
         case 1:
@@ -73,6 +76,7 @@ class PlanRouteViewController: UITableViewController {
             let destinationTitle = places[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "destinationCell", for: indexPath) as! DestinationCell
             cell.titleLabel.text = destinationTitle
+            
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "addDestinationCell", for: indexPath)
@@ -137,6 +141,7 @@ class PlanRouteViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender:
         Any?) {
         if segue.identifier == "optimizeSegue" {
+            let route = Route(name: "Customer visits", date: "01-02-2018", startingPoint: startingPoint, destinations: places)
             let optimizeRouteViewController = segue.destination as! OptimizeRouteViewController
             optimizeRouteViewController.optimizedRoute = route
         }

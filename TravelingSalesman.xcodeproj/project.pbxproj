@@ -13,6 +13,11 @@
 		420DFA9620039FFB002C5B4A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 420DFA9520039FFB002C5B4A /* Assets.xcassets */; };
 		420DFA9920039FFB002C5B4A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 420DFA9720039FFB002C5B4A /* LaunchScreen.storyboard */; };
 		4235D9C9200E5C95000285BC /* StartingPointCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4235D9C8200E5C95000285BC /* StartingPointCell.swift */; };
+		42379C6B2011542100BF68EF /* RouteNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42379C6A2011542100BF68EF /* RouteNameCell.swift */; };
+		42379C6D20115C1B00BF68EF /* TextLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42379C6C20115C1B00BF68EF /* TextLabelCell.swift */; };
+		42379C6F2011E6CF00BF68EF /* DirectionsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42379C6E2011E6CF00BF68EF /* DirectionsData.swift */; };
+		42379C712011E99800BF68EF /* DirectionsDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42379C702011E99800BF68EF /* DirectionsDataController.swift */; };
+		42379C732011F46000BF68EF /* URL+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42379C722011F46000BF68EF /* URL+Helpers.swift */; };
 		4265E0A5200FFD9A00A944A5 /* HeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4265E0A4200FFD9A00A944A5 /* HeaderCell.swift */; };
 		426F178E200A91B700C3EE30 /* Arciform.otf in Resources */ = {isa = PBXBuildFile; fileRef = 426F178D200A91B700C3EE30 /* Arciform.otf */; };
 		427E5353200CE68700CF5EB5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 427E5352200CE68700CF5EB5 /* GoogleService-Info.plist */; };
@@ -35,6 +40,11 @@
 		420DFA9820039FFB002C5B4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		420DFA9A20039FFB002C5B4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4235D9C8200E5C95000285BC /* StartingPointCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingPointCell.swift; sourceTree = "<group>"; };
+		42379C6A2011542100BF68EF /* RouteNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteNameCell.swift; sourceTree = "<group>"; };
+		42379C6C20115C1B00BF68EF /* TextLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLabelCell.swift; sourceTree = "<group>"; };
+		42379C6E2011E6CF00BF68EF /* DirectionsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsData.swift; sourceTree = "<group>"; };
+		42379C702011E99800BF68EF /* DirectionsDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsDataController.swift; sourceTree = "<group>"; };
+		42379C722011F46000BF68EF /* URL+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Helpers.swift"; sourceTree = "<group>"; };
 		4265E0A4200FFD9A00A944A5 /* HeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCell.swift; sourceTree = "<group>"; };
 		426F178D200A91B700C3EE30 /* Arciform.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Arciform.otf; sourceTree = "<group>"; };
 		427E5352200CE68700CF5EB5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -115,11 +125,15 @@
 		427E534E200CDFE300CF5EB5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				42379C722011F46000BF68EF /* URL+Helpers.swift */,
 				42E94F882008103900FE5DCA /* Route.swift */,
 				427E535A200D522B00CF5EB5 /* DestinationCell.swift */,
 				42B3A1BF200E1D2900C884C4 /* DateCell.swift */,
 				4235D9C8200E5C95000285BC /* StartingPointCell.swift */,
 				4265E0A4200FFD9A00A944A5 /* HeaderCell.swift */,
+				42379C6A2011542100BF68EF /* RouteNameCell.swift */,
+				42379C6C20115C1B00BF68EF /* TextLabelCell.swift */,
+				42379C6E2011E6CF00BF68EF /* DirectionsData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -129,9 +143,10 @@
 			children = (
 				420DFA9020039FFB002C5B4A /* LoginViewController.swift */,
 				42E94F842007B3CB00FE5DCA /* RegisterViewController.swift */,
-				42E94F8620080D1D00FE5DCA /* OptimizeRouteViewController.swift */,
 				427E5354200CF41600CF5EB5 /* MainViewController.swift */,
 				427E5356200D15A500CF5EB5 /* PlanRouteViewController.swift */,
+				42E94F8620080D1D00FE5DCA /* OptimizeRouteViewController.swift */,
+				42379C702011E99800BF68EF /* DirectionsDataController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -286,16 +301,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42379C6D20115C1B00BF68EF /* TextLabelCell.swift in Sources */,
 				42E94F852007B3CB00FE5DCA /* RegisterViewController.swift in Sources */,
 				42E94F8720080D1D00FE5DCA /* OptimizeRouteViewController.swift in Sources */,
 				427E535B200D522B00CF5EB5 /* DestinationCell.swift in Sources */,
 				420DFA9120039FFB002C5B4A /* LoginViewController.swift in Sources */,
+				42379C712011E99800BF68EF /* DirectionsDataController.swift in Sources */,
 				42B3A1C0200E1D2900C884C4 /* DateCell.swift in Sources */,
 				427E5355200CF41600CF5EB5 /* MainViewController.swift in Sources */,
 				4235D9C9200E5C95000285BC /* StartingPointCell.swift in Sources */,
 				42E94F892008103900FE5DCA /* Route.swift in Sources */,
+				42379C6F2011E6CF00BF68EF /* DirectionsData.swift in Sources */,
 				420DFA8F20039FFB002C5B4A /* AppDelegate.swift in Sources */,
 				4265E0A5200FFD9A00A944A5 /* HeaderCell.swift in Sources */,
+				42379C732011F46000BF68EF /* URL+Helpers.swift in Sources */,
+				42379C6B2011542100BF68EF /* RouteNameCell.swift in Sources */,
 				427E5357200D15A500CF5EB5 /* PlanRouteViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
