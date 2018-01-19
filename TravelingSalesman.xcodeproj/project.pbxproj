@@ -18,12 +18,14 @@
 		42379C6F2011E6CF00BF68EF /* DirectionsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42379C6E2011E6CF00BF68EF /* DirectionsData.swift */; };
 		42379C712011E99800BF68EF /* DirectionsDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42379C702011E99800BF68EF /* DirectionsDataController.swift */; };
 		42379C732011F46000BF68EF /* URL+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42379C722011F46000BF68EF /* URL+Helpers.swift */; };
+		4250C4B620123C06008E958E /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4250C4B520123C06008E958E /* ContactsViewController.swift */; };
 		4265E0A5200FFD9A00A944A5 /* HeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4265E0A4200FFD9A00A944A5 /* HeaderCell.swift */; };
 		426F178E200A91B700C3EE30 /* Arciform.otf in Resources */ = {isa = PBXBuildFile; fileRef = 426F178D200A91B700C3EE30 /* Arciform.otf */; };
 		427E5353200CE68700CF5EB5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 427E5352200CE68700CF5EB5 /* GoogleService-Info.plist */; };
 		427E5355200CF41600CF5EB5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427E5354200CF41600CF5EB5 /* MainViewController.swift */; };
 		427E5357200D15A500CF5EB5 /* PlanRouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427E5356200D15A500CF5EB5 /* PlanRouteViewController.swift */; };
 		427E535B200D522B00CF5EB5 /* DestinationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427E535A200D522B00CF5EB5 /* DestinationCell.swift */; };
+		42915AF02012613500D3D648 /* AddContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42915AEF2012613500D3D648 /* AddContactViewController.swift */; };
 		42B3A1C0200E1D2900C884C4 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B3A1BF200E1D2900C884C4 /* DateCell.swift */; };
 		42E94F852007B3CB00FE5DCA /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E94F842007B3CB00FE5DCA /* RegisterViewController.swift */; };
 		42E94F8720080D1D00FE5DCA /* OptimizeRouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E94F8620080D1D00FE5DCA /* OptimizeRouteViewController.swift */; };
@@ -45,13 +47,15 @@
 		42379C6E2011E6CF00BF68EF /* DirectionsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsData.swift; sourceTree = "<group>"; };
 		42379C702011E99800BF68EF /* DirectionsDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsDataController.swift; sourceTree = "<group>"; };
 		42379C722011F46000BF68EF /* URL+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Helpers.swift"; sourceTree = "<group>"; };
+		4250C4B520123C06008E958E /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		4265E0A4200FFD9A00A944A5 /* HeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCell.swift; sourceTree = "<group>"; };
 		426F178D200A91B700C3EE30 /* Arciform.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Arciform.otf; sourceTree = "<group>"; };
 		427E5352200CE68700CF5EB5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		427E5354200CF41600CF5EB5 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		427E5356200D15A500CF5EB5 /* PlanRouteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanRouteViewController.swift; sourceTree = "<group>"; };
 		427E535A200D522B00CF5EB5 /* DestinationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationCell.swift; sourceTree = "<group>"; };
-		42B3A1BF200E1D2900C884C4 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DateCell.swift; path = TravelingSalesman/Models/DateCell.swift; sourceTree = SOURCE_ROOT; };
+		42915AEF2012613500D3D648 /* AddContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactViewController.swift; sourceTree = "<group>"; };
+		42B3A1BF200E1D2900C884C4 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DateCell.swift; path = "TravelingSalesman/Models/Custom cells/DateCell.swift"; sourceTree = SOURCE_ROOT; };
 		42E94F842007B3CB00FE5DCA /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		42E94F8620080D1D00FE5DCA /* OptimizeRouteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptimizeRouteViewController.swift; sourceTree = "<group>"; };
 		42E94F882008103900FE5DCA /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
@@ -125,14 +129,9 @@
 		427E534E200CDFE300CF5EB5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				42915AEE2012514F00D3D648 /* Custom cells */,
 				42379C722011F46000BF68EF /* URL+Helpers.swift */,
 				42E94F882008103900FE5DCA /* Route.swift */,
-				427E535A200D522B00CF5EB5 /* DestinationCell.swift */,
-				42B3A1BF200E1D2900C884C4 /* DateCell.swift */,
-				4235D9C8200E5C95000285BC /* StartingPointCell.swift */,
-				4265E0A4200FFD9A00A944A5 /* HeaderCell.swift */,
-				42379C6A2011542100BF68EF /* RouteNameCell.swift */,
-				42379C6C20115C1B00BF68EF /* TextLabelCell.swift */,
 				42379C6E2011E6CF00BF68EF /* DirectionsData.swift */,
 			);
 			path = Models;
@@ -143,6 +142,8 @@
 			children = (
 				420DFA9020039FFB002C5B4A /* LoginViewController.swift */,
 				42E94F842007B3CB00FE5DCA /* RegisterViewController.swift */,
+				4250C4B520123C06008E958E /* ContactsViewController.swift */,
+				42915AEF2012613500D3D648 /* AddContactViewController.swift */,
 				427E5354200CF41600CF5EB5 /* MainViewController.swift */,
 				427E5356200D15A500CF5EB5 /* PlanRouteViewController.swift */,
 				42E94F8620080D1D00FE5DCA /* OptimizeRouteViewController.swift */,
@@ -166,6 +167,19 @@
 				420DFA8E20039FFB002C5B4A /* AppDelegate.swift */,
 			);
 			path = Other;
+			sourceTree = "<group>";
+		};
+		42915AEE2012514F00D3D648 /* Custom cells */ = {
+			isa = PBXGroup;
+			children = (
+				4265E0A4200FFD9A00A944A5 /* HeaderCell.swift */,
+				42379C6A2011542100BF68EF /* RouteNameCell.swift */,
+				42B3A1BF200E1D2900C884C4 /* DateCell.swift */,
+				4235D9C8200E5C95000285BC /* StartingPointCell.swift */,
+				427E535A200D522B00CF5EB5 /* DestinationCell.swift */,
+				42379C6C20115C1B00BF68EF /* TextLabelCell.swift */,
+			);
+			path = "Custom cells";
 			sourceTree = "<group>";
 		};
 		4DFE57E59B713FD47B4C5F01 /* Frameworks */ = {
@@ -304,7 +318,9 @@
 				42379C6D20115C1B00BF68EF /* TextLabelCell.swift in Sources */,
 				42E94F852007B3CB00FE5DCA /* RegisterViewController.swift in Sources */,
 				42E94F8720080D1D00FE5DCA /* OptimizeRouteViewController.swift in Sources */,
+				42915AF02012613500D3D648 /* AddContactViewController.swift in Sources */,
 				427E535B200D522B00CF5EB5 /* DestinationCell.swift in Sources */,
+				4250C4B620123C06008E958E /* ContactsViewController.swift in Sources */,
 				420DFA9120039FFB002C5B4A /* LoginViewController.swift in Sources */,
 				42379C712011E99800BF68EF /* DirectionsDataController.swift in Sources */,
 				42B3A1C0200E1D2900C884C4 /* DateCell.swift in Sources */,

@@ -22,7 +22,7 @@ class OptimizeRouteViewController: UITableViewController {
 //            if let directions = directions {
 //                DispatchQueue.main.async {
 //                    // Load API info into questions array.
-//                    print(directions)
+//                    print("test")
 //                }
 //            }
 //        }
@@ -73,5 +73,22 @@ class OptimizeRouteViewController: UITableViewController {
             return nil
         }
     }
+    
+    @IBAction func saveButtonDidTouch(_ sender: Any) {
+        let alert = UIAlertController(title: "Save",
+                                      message: "Are you sure you want to save this route?",
+                                      preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel",
+                                         style: .default)
+        let saveAction = UIAlertAction(title: "Yes",
+                                       style: .default)
+        
+        alert.addAction(cancelAction)
+        alert.addAction(saveAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
     
 }
