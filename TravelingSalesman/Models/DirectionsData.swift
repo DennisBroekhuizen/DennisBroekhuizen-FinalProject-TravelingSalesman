@@ -27,25 +27,25 @@ struct Directions: Codable {
 }
 
 struct Routes: Codable {
-    let copyrights : String?
-    let summary : String?
-    let warnings : [String]?
-    let waypoint_order : [String]?
+//    let copyrights : String?
+//    let summary : String?
+//    let warnings : [String]?
+    let waypoint_order : [Int]?
     
     enum CodingKeys: String, CodingKey {
         
-        case copyrights = "copyrights"
-        case summary = "summary"
-        case warnings = "warnings"
+//        case copyrights = "copyrights"
+//        case summary = "summary"
+//        case warnings = "warnings"
         case waypoint_order = "waypoint_order"
     }
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        copyrights = try values.decodeIfPresent(String.self, forKey: .copyrights)
-        summary = try values.decodeIfPresent(String.self, forKey: .summary)
-        warnings = try values.decodeIfPresent([String].self, forKey: .warnings)
-        waypoint_order = try values.decodeIfPresent([String].self, forKey: .waypoint_order)
+//        copyrights = try values.decodeIfPresent(String.self, forKey: .copyrights)
+//        summary = try values.decodeIfPresent(String.self, forKey: .summary)
+//        warnings = try values.decodeIfPresent([String].self, forKey: .warnings)
+        waypoint_order = try values.decodeIfPresent([Int].self, forKey: .waypoint_order)
     }
     
 }

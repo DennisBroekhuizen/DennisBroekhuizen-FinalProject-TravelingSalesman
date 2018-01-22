@@ -7,25 +7,44 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseDatabase
 
 class OptimizeRouteViewController: UITableViewController {
-
+    
     var optimizedRoute: Route!
     var sectionTitles: [String] = ["Route name", "Date", "Starting point", "Destinations"]
-    var optimizedArray: [String] = []
+    var optimizedArray: [Int] = []
     let directionsDataController = DirectionsDataController()
+    
+    let userID = Auth.auth().currentUser?.uid
+    let ref = Database.database().reference(withPath: "users")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        directionsDataController.fetchDirections { (directions) in
-//            if let directions = directions {
-//                DispatchQueue.main.async {
-//                    // Load API info into questions array.
-//                    print("test")
-//                }
-//            }
-//        }
+        directionsDataController.fetchDirections(startingPoint: optimizedRoute.startingPoint, destinations: optimizedRoute.destinations) { (directions) in
+            if let directions = directions {
+                DispatchQueue.main.async {
+                    // Load API info into questions array.
+                    self.optimizedArray = directions.routes![0].waypoint_order!
+                    let lenArray = self.optimizedRoute.destinations.count
+                    var newArray: [String] = []
+                    for len in 0 ... lenArray - 1 {
+                        newArray.append(String(len))
+                    }
+                    print(newArray)
+                    for i in self.optimizedArray {
+                        newArray.insert(self.optimizedRoute.destinations[i], at: self.optimizedArray[i])
+                    }
+                    print(newArray)
+                    self.optimizedRoute.destinations = newArray
+                    self.tableView.reloadData()
+                    print(self.optimizedArray)
+                    print("test")
+                }
+            }
+        }
         
         // Remove row seperator line for unfilled rows.
         tableView.tableFooterView = UIView(frame: CGRect.zero)
@@ -82,7 +101,18 @@ class OptimizeRouteViewController: UITableViewController {
         let cancelAction = UIAlertAction(title: "Cancel",
                                          style: .default)
         let saveAction = UIAlertAction(title: "Yes",
-                                       style: .default)
+                                       style: .default) { _ in
+                                        
+                                        let currentUser = self.ref.child(self.userID!)
+                                        
+                                        let newRoute = currentUser.child("routes").child(self.optimizedRoute.date)
+                                        
+                                            newRoute.child("name").setValue(self.optimizedRoute.name)
+                                        newRoute.child("startingPoint").setValue(self.optimizedRoute.startingPoint)
+                                        newRoute.child("destinations").setValue(self.optimizedRoute.destinations)
+                                        
+//                                    self.performSegue(withIdentifier: "showTravel", sender: nil)
+        }
         
         alert.addAction(cancelAction)
         alert.addAction(saveAction)

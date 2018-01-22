@@ -77,11 +77,9 @@ class AddContactViewController: UITableViewController {
         let saveAction = UIAlertAction(title: "Yes",
                                        style: .default) { _ in
                                         
-                                        let currentUser = self.ref.child(self.userID!).child("contacts")
+                                        let currentUser = self.ref.child(self.userID!)
                                         
-                                        let newContactRef = currentUser.child(self.contactName.text!)
-                                        
-                                        newContactRef.setValue(self.contactAddress.text!)
+                                    currentUser.child("contacts").child(self.contactName.text!).child("address").setValue(self.contactAddress.text!)
                                         
                                         self.performSegue(withIdentifier: "unwindToContacts", sender: nil)
         }

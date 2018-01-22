@@ -10,8 +10,19 @@ import Foundation
 
 // Controller to retrieve questions from trivia api.
 class DirectionsDataController {
-    func fetchDirections(completion: @escaping (Directions?) -> Void) {
-        let url = URL(string: "https://maps.googleapis.com/maps/api/directions/json?origin=Adelaide,SA&destination=Adelaide,SA&waypoints=optimize:true|Barossa+Valley,SA|Clare,SA|Connawarra,SA|McLaren+Vale,SA&key=AIzaSyDJsIT4pTNorLqY05njwn_qmC-KHYMK10o")!
+    func fetchDirections(startingPoint: String, destinations: [String], completion: @escaping (Directions?) -> Void) {
+        var tempUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=\(startingPoint)&destination=Gorinchem,NL"
+        
+        tempUrl += "&waypoints=optimize:true%7c"
+        
+        for destination in destinations {
+            tempUrl += destination + "%7c"
+        }
+        
+        tempUrl += "&key=AIzaSyDX7yfEqlktigCmvfMG6RgLEOqGXYLULwg"
+        let finalUrl = tempUrl.removingWhitespaces()
+        print(finalUrl)
+        let url = URL(string: finalUrl)!
         
 //        let query: [String: String] = [
 //        "api_key": "DEMO_KEY",
@@ -32,3 +43,10 @@ class DirectionsDataController {
         task.resume()
     }
 }
+
+extension String {
+    func removingWhitespaces() -> String {
+        return components(separatedBy: .whitespaces).joined()
+    }
+}
+

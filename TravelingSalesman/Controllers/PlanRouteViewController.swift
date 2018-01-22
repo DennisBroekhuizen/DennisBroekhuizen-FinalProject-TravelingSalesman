@@ -22,7 +22,6 @@ class PlanRouteViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Remove row seperator line for unfilled rows.
         tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
@@ -106,9 +105,10 @@ class PlanRouteViewController: UITableViewController {
             tableView.endUpdates()
         case [2,0]:
             sectionSelected = 2
-            let autocompleteController = GMSAutocompleteViewController()
-            autocompleteController.delegate = self
-            present(autocompleteController, animated: true, completion: nil)
+//            let autocompleteController = GMSAutocompleteViewController()
+//            autocompleteController.delegate = self
+//            present(autocompleteController, animated: true, completion: nil)
+            self.performSegue (withIdentifier: "showSearch", sender: self)
         case [4,0]:
             sectionSelected = 4
             let autocompleteController = GMSAutocompleteViewController()
@@ -141,10 +141,18 @@ class PlanRouteViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender:
         Any?) {
         if segue.identifier == "optimizeSegue" {
-            let route = Route(name: "Customer visits", date: "01-02-2018", startingPoint: startingPoint, destinations: places)
+            let indexpathForRouteName = IndexPath(row: 0, section: 0)
+            let indexpathForDate = IndexPath(row: 0, section: 1)
+            let routeNameCell = tableView.cellForRow(at: indexpathForRouteName) as! RouteNameCell
+            let dateCell = tableView.cellForRow(at: indexpathForDate) as! DateCell
+            let route = Route(name: routeNameCell.textField.text!, date: dateCell.dateLabel.text!, startingPoint: startingPoint, destinations: places)
             let optimizeRouteViewController = segue.destination as! OptimizeRouteViewController
             optimizeRouteViewController.optimizedRoute = route
         }
+    }
+    
+    // Segue to send user back to planRouteViewController.
+    @IBAction func unwindToPlanRoute(segue: UIStoryboardSegue) {
     }
     
 }
