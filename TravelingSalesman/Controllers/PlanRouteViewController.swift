@@ -105,10 +105,10 @@ class PlanRouteViewController: UITableViewController {
             tableView.endUpdates()
         case [2,0]:
             sectionSelected = 2
-//            let autocompleteController = GMSAutocompleteViewController()
-//            autocompleteController.delegate = self
-//            present(autocompleteController, animated: true, completion: nil)
-            self.performSegue (withIdentifier: "showSearch", sender: self)
+            let autocompleteController = GMSAutocompleteViewController()
+            autocompleteController.delegate = self
+            present(autocompleteController, animated: true, completion: nil)
+//            self.performSegue (withIdentifier: "showSearch", sender: self)
         case [4,0]:
             sectionSelected = 4
             let autocompleteController = GMSAutocompleteViewController()

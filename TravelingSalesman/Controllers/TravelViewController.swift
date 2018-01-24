@@ -51,7 +51,7 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return routes.count
+        return routes.count - 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -71,6 +71,10 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     // Pass data to next viewController.
     override func prepare(for segue: UIStoryboardSegue, sender:
         Any?) {
@@ -80,6 +84,10 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let selectedRoute = routes[indexPath.row]
             routeDetailViewController.chosenRoute = selectedRoute
         }
+    }
+    
+    // Segue to send user back to loginscreen if they logout.
+    @IBAction func unwindToTravelScreen(segue: UIStoryboardSegue) {
     }
     
 }

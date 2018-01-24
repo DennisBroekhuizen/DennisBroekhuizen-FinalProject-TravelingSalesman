@@ -18,7 +18,7 @@ class RouteDetailViewController: UITableViewController {
     let ref = Database.database().reference(withPath: "users")
 
     var sectionTitles: [String] = ["Route name", "Date", "Starting point", "Destinations"]
-    var destinations: [String] = ["Amsterdam", "Rotterdam"]
+//    var destinations: [String] = ["Amsterdam", "Rotterdam"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +34,7 @@ class RouteDetailViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 3 {
-            return destinations.count
+            return chosenRoute.destinations.count
         } else {
             return 1
         }
@@ -70,22 +70,8 @@ class RouteDetailViewController: UITableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) else { return }
-//        toggleCellCheckbox(cell, isCompleted: toggledCompletion)
-        cell.accessoryType = .checkmark
-    }
-//
-//    func toggleCellCheckbox(_ cell: UITableViewCell) {
-//        if !isCompleted {
-//            cell.accessoryType = .none
-//        } else {
-//            cell.accessoryType = .checkmark
-//        }
-//    }
-    
     @IBAction func startButtonDidTouch(_ sender: Any) {
-        let alert = UIAlertController(title: "Save",
+        let alert = UIAlertController(title: "Start",
                                       message: "Are you sure you want to start this route?",
                                       preferredStyle: .alert)
         
@@ -96,11 +82,14 @@ class RouteDetailViewController: UITableViewController {
                                         
                                         let currentUser = self.ref.child(self.userID!)
                                         
-                                        let currentRoute = currentUser.child("currentRoute")
+                                        let currentRoute = currentUser.child("routes").child("currentRoute")
+                                        
+//                                        currentRoute.child("date").setValue(self.chosenRoute.date)
                                         
                                         currentRoute.child("name").setValue(self.chosenRoute.name)
                                         currentRoute.child("startingPoint").setValue(self.chosenRoute.startingPoint)
                                         currentRoute.child("destinations").setValue(self.chosenRoute.destinations)
+                                        self.performSegue(withIdentifier: "startedRoute", sender: nil)
         }
         
         alert.addAction(cancelAction)

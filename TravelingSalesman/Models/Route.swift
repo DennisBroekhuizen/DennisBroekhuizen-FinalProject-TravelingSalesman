@@ -14,7 +14,6 @@ struct Route {
     var date: String
     var startingPoint: String
     var destinations: [String]
-    var completion: Bool
     let ref: DatabaseReference?
     
     init(name: String, date: String, startingPoint: String, destinations: [String]) {
@@ -22,7 +21,6 @@ struct Route {
         self.date = date
         self.startingPoint = startingPoint
         self.destinations = destinations
-        self.completion = false
         self.ref = nil
     }
     
@@ -32,7 +30,6 @@ struct Route {
         name = snapshotValue["name"] as! String
         startingPoint = snapshotValue["startingPoint"] as! String
         destinations = snapshotValue["destinations"] as! [String]
-        completion = false
         ref = snapshot.ref
     }
     
@@ -42,4 +39,29 @@ struct Route {
         formatter.timeStyle = .short
         return formatter
     }()
+}
+
+struct CurrentRoute {
+    var name: String
+    var date: String
+    var startingPoint: String
+    var destinations: [String]
+    let ref: DatabaseReference?
+    
+    init(name: String, date: String, startingPoint: String, destinations: [String]) {
+        self.name = name
+        self.date = date
+        self.startingPoint = startingPoint
+        self.destinations = destinations
+        self.ref = nil
+    }
+    
+    init(snapshot: DataSnapshot) {
+        let snapshotValue = snapshot.value as! [String: AnyObject]
+        date = snapshotValue["date"] as! String
+        name = snapshotValue["name"] as! String
+        startingPoint = snapshotValue["startingPoint"] as! String
+        destinations = snapshotValue["destinations"] as! [String]
+        ref = snapshot.ref
+    }
 }

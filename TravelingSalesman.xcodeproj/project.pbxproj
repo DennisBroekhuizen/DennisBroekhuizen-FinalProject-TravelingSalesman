@@ -33,6 +33,7 @@
 		42915AFA20161CE200D3D648 /* TextElementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42915AF920161CE200D3D648 /* TextElementCell.swift */; };
 		42915AFC20161D5700D3D648 /* RouteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42915AFB20161D5700D3D648 /* RouteDetailViewController.swift */; };
 		42915B002016910800D3D648 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42915AFF2016910800D3D648 /* SearchViewController.swift */; };
+		42915B0220172FE100D3D648 /* CurrentRouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42915B0120172FE100D3D648 /* CurrentRouteViewController.swift */; };
 		42B3A1C0200E1D2900C884C4 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B3A1BF200E1D2900C884C4 /* DateCell.swift */; };
 		42E94F852007B3CB00FE5DCA /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E94F842007B3CB00FE5DCA /* RegisterViewController.swift */; };
 		42E94F8720080D1D00FE5DCA /* OptimizeRouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E94F8620080D1D00FE5DCA /* OptimizeRouteViewController.swift */; };
@@ -69,6 +70,7 @@
 		42915AF920161CE200D3D648 /* TextElementCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextElementCell.swift; sourceTree = "<group>"; };
 		42915AFB20161D5700D3D648 /* RouteDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteDetailViewController.swift; sourceTree = "<group>"; };
 		42915AFF2016910800D3D648 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		42915B0120172FE100D3D648 /* CurrentRouteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentRouteViewController.swift; sourceTree = "<group>"; };
 		42B3A1BF200E1D2900C884C4 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DateCell.swift; path = "TravelingSalesman/Models/Custom cells/DateCell.swift"; sourceTree = SOURCE_ROOT; };
 		42E94F842007B3CB00FE5DCA /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		42E94F8620080D1D00FE5DCA /* OptimizeRouteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptimizeRouteViewController.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				42915AF52015FBFE00D3D648 /* TravelViewController.swift */,
 				42915AFB20161D5700D3D648 /* RouteDetailViewController.swift */,
 				42915AFF2016910800D3D648 /* SearchViewController.swift */,
+				42915B0120172FE100D3D648 /* CurrentRouteViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 				420DFA8F20039FFB002C5B4A /* AppDelegate.swift in Sources */,
 				42915AFC20161D5700D3D648 /* RouteDetailViewController.swift in Sources */,
 				4265E0A5200FFD9A00A944A5 /* HeaderCell.swift in Sources */,
+				42915B0220172FE100D3D648 /* CurrentRouteViewController.swift in Sources */,
 				42379C732011F46000BF68EF /* URL+Helpers.swift in Sources */,
 				42379C6B2011542100BF68EF /* RouteNameCell.swift in Sources */,
 				427E5357200D15A500CF5EB5 /* PlanRouteViewController.swift in Sources */,

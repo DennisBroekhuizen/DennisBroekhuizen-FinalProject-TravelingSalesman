@@ -14,7 +14,8 @@ class OptimizeRouteViewController: UITableViewController {
     
     var optimizedRoute: Route!
     var sectionTitles: [String] = ["Route name", "Date", "Starting point", "Destinations"]
-    var optimizedArray: [Int] = []
+    var optimizedIndex: [Int] = []
+    var optimizedDestinations: [String] = []
     let directionsDataController = DirectionsDataController()
     
     let userID = Auth.auth().currentUser?.uid
@@ -27,21 +28,34 @@ class OptimizeRouteViewController: UITableViewController {
             if let directions = directions {
                 DispatchQueue.main.async {
                     // Load API info into questions array.
-                    self.optimizedArray = directions.routes![0].waypoint_order!
-                    let lenArray = self.optimizedRoute.destinations.count
-                    var newArray: [String] = []
-                    for len in 0 ... lenArray - 1 {
-                        newArray.append(String(len))
+                    self.optimizedIndex = directions.routes![0].waypoint_order!
+                    let lenDestinations = self.optimizedRoute.destinations.count - 1
+                    
+                    // Temp fill array
+                    for i in 0 ... lenDestinations {
+                        self.optimizedDestinations.append(String(i))
                     }
-                    print(newArray)
-                    for i in self.optimizedArray {
-                        newArray.insert(self.optimizedRoute.destinations[i], at: self.optimizedArray[i])
+                    
+                    for destination in 0 ... lenDestinations {
+                        self.optimizedDestinations[destination] = self.optimizedRoute.destinations[self.optimizedIndex[destination]]
                     }
-                    print(newArray)
-                    self.optimizedRoute.destinations = newArray
+                    self.optimizedRoute.destinations = self.optimizedDestinations
                     self.tableView.reloadData()
-                    print(self.optimizedArray)
-                    print("test")
+//                    self.optimizedArray = directions.routes![0].waypoint_order!
+//                    let lenArray = self.optimizedRoute.destinations.count
+//                    var newArray: [String] = []
+//                    for len in 0 ... lenArray - 1 {
+//                        newArray.append(String(len))
+//                    }
+//                    print(newArray)
+//                    for i in self.optimizedArray {
+//                        newArray.insert(self.optimizedRoute.destinations[i], at: self.optimizedArray[i])
+//                    }
+//                    print(newArray)
+//                    self.optimizedRoute.destinations = newArray
+//                    self.tableView.reloadData()
+//                    print(self.optimizedArray)
+//                    print("test")
                 }
             }
         }

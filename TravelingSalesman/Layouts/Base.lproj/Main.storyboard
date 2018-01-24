@@ -387,7 +387,95 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fiR-yv-TwA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="940" y="3157"/>
+            <point key="canvasLocation" x="940" y="3188"/>
+        </scene>
+        <!--Current Route View Controller-->
+        <scene sceneID="ZFD-OT-RfM">
+            <objects>
+                <tableViewController id="DYK-Y7-fmi" customClass="CurrentRouteViewController" customModule="TravelingSalesman" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="cHr-uA-R2V">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="DtY-aX-GvX">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You're Travelling!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mVm-Gg-bUw">
+                                    <rect key="frame" x="31" y="23" width="313" height="55"/>
+                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="40"/>
+                                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="mVm-Gg-bUw" firstAttribute="centerX" secondItem="DtY-aX-GvX" secondAttribute="centerX" id="V4i-gj-Q8c"/>
+                                <constraint firstItem="mVm-Gg-bUw" firstAttribute="centerY" secondItem="DtY-aX-GvX" secondAttribute="centerY" id="ucL-2M-OYL"/>
+                            </constraints>
+                        </view>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="tBu-19-Ebq">
+                            <rect key="frame" x="0.0" y="172" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RuP-0W-aVu">
+                                    <rect key="frame" x="20" y="7" width="335" height="30"/>
+                                    <color key="backgroundColor" red="0.0039215686269999999" green="0.52941176469999995" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="30" id="KlO-qb-U9K"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="20"/>
+                                    <state key="normal" title="Open address in maps">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.CornerRadius">
+                                            <integer key="value" value="5"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="didTapOpenInMaps:" destination="DYK-Y7-fmi" eventType="touchUpInside" id="Sx0-Qe-LjC"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="RuP-0W-aVu" firstAttribute="centerY" secondItem="tBu-19-Ebq" secondAttribute="centerY" id="D9a-W9-0VA"/>
+                                <constraint firstItem="RuP-0W-aVu" firstAttribute="leading" secondItem="tBu-19-Ebq" secondAttribute="leading" constant="20" id="LI5-pT-ZzU"/>
+                                <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="RuP-0W-aVu" secondAttribute="trailing" constant="20" id="moE-tU-WdA"/>
+                            </constraints>
+                        </view>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="currentRouteCell" id="ddb-tP-AV7">
+                                <rect key="frame" x="0.0" y="128" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ddb-tP-AV7" id="OY1-BR-nbw">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="DYK-Y7-fmi" id="gD0-hM-1PU"/>
+                            <outlet property="delegate" destination="DYK-Y7-fmi" id="Gng-vp-Wk8"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="TbZ-x0-8xs">
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="JR8-tf-wPb">
+                            <connections>
+                                <action selector="stopRouteDidTouch:" destination="DYK-Y7-fmi" id="hMS-S9-nE8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="openInMapsButton" destination="RuP-0W-aVu" id="yq6-2F-BS2"/>
+                        <segue destination="rll-dL-K3p" kind="unwind" identifier="stopRoute" unwindAction="unwindToTravelScreenWithSegue:" id="WQo-uN-ZpY"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rRd-1g-RNf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="rll-dL-K3p" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1598" y="3188"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="b8r-OX-ckX">
@@ -423,7 +511,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AHd-Wo-zdY" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="UZ4-ME-Yfw" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1598" y="3157"/>
+            <point key="canvasLocation" x="289" y="3188"/>
         </scene>
         <!--Contacts-->
         <scene sceneID="koX-MC-E22">
@@ -814,6 +902,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="DYK-Y7-fmi" kind="show" identifier="startedRoute" id="bzR-Wl-hxt"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fjl-MN-dWF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -897,11 +988,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="atO-u6-woq"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Travel" id="IRL-lQ-XAs">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="iOz-Wd-mms">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Travel" id="IRL-lQ-XAs"/>
                     <connections>
                         <outlet property="tableView" destination="STg-YE-gi5" id="OT2-GU-Hlc"/>
                     </connections>
