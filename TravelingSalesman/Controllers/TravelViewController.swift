@@ -51,7 +51,11 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return routes.count - 1
+        if routes.count == 1 {
+            return 1
+        } else {
+            return routes.count - 1
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

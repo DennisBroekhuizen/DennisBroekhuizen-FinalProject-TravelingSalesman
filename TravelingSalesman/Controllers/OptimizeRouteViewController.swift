@@ -9,13 +9,15 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
+import CoreLocation
 
 class OptimizeRouteViewController: UITableViewController {
     
     var optimizedRoute: Route!
-    var sectionTitles: [String] = ["Route name", "Date", "Starting point", "Destinations"]
+    var sectionTitles: [String] = ["Route name", "Date", "Starting point", "Destinations", "End point"]
     var optimizedIndex: [Int] = []
     var optimizedDestinations: [String] = []
+    var optimizedCoordinates: [String] = []
     let directionsDataController = DirectionsDataController()
     
     let userID = Auth.auth().currentUser?.uid
@@ -24,7 +26,7 @@ class OptimizeRouteViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        directionsDataController.fetchDirections(startingPoint: optimizedRoute.startingPoint, destinations: optimizedRoute.destinations) { (directions) in
+        directionsDataController.fetchDirections(startingPoint: optimizedRoute.startingPoint, destinations: optimizedRoute.destinations, endPoint: optimizedRoute.endPoint) { (directions) in
             if let directions = directions {
                 DispatchQueue.main.async {
                     // Load API info into questions array.
@@ -34,28 +36,17 @@ class OptimizeRouteViewController: UITableViewController {
                     // Temp fill array
                     for i in 0 ... lenDestinations {
                         self.optimizedDestinations.append(String(i))
+                        self.optimizedCoordinates.append(String(i))
                     }
                     
                     for destination in 0 ... lenDestinations {
                         self.optimizedDestinations[destination] = self.optimizedRoute.destinations[self.optimizedIndex[destination]]
+                        self.optimizedCoordinates[destination] = self.optimizedRoute.destinationsCoordinates[self.optimizedIndex[destination]]
                     }
+                    
                     self.optimizedRoute.destinations = self.optimizedDestinations
+                    self.optimizedRoute.destinationsCoordinates = self.optimizedCoordinates
                     self.tableView.reloadData()
-//                    self.optimizedArray = directions.routes![0].waypoint_order!
-//                    let lenArray = self.optimizedRoute.destinations.count
-//                    var newArray: [String] = []
-//                    for len in 0 ... lenArray - 1 {
-//                        newArray.append(String(len))
-//                    }
-//                    print(newArray)
-//                    for i in self.optimizedArray {
-//                        newArray.insert(self.optimizedRoute.destinations[i], at: self.optimizedArray[i])
-//                    }
-//                    print(newArray)
-//                    self.optimizedRoute.destinations = newArray
-//                    self.tableView.reloadData()
-//                    print(self.optimizedArray)
-//                    print("test")
                 }
             }
         }
@@ -66,7 +57,7 @@ class OptimizeRouteViewController: UITableViewController {
     
     // Declaration of sections and rows in tableView.
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 5
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -93,6 +84,9 @@ class OptimizeRouteViewController: UITableViewController {
         case 3:
             cell.labelText.text = optimizedRoute.destinations[indexPath.row]
             return cell
+        case 4:
+            cell.labelText.text = optimizedRoute.endPoint
+            return cell
         default: break
         }
         return UITableViewCell()
@@ -100,7 +94,7 @@ class OptimizeRouteViewController: UITableViewController {
     
     // Declaration of section titles in tableView.
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section >= 0 && section <= 3 {
+        if section >= 0 && section <= 4 {
             return sectionTitles[section]
         } else {
             return nil
@@ -124,6 +118,8 @@ class OptimizeRouteViewController: UITableViewController {
                                             newRoute.child("name").setValue(self.optimizedRoute.name)
                                         newRoute.child("startingPoint").setValue(self.optimizedRoute.startingPoint)
                                         newRoute.child("destinations").setValue(self.optimizedRoute.destinations)
+                                        newRoute.child("destinationsCoordinates").setValue(self.optimizedRoute.destinationsCoordinates)
+                                        newRoute.child("endPoint").setValue(self.optimizedRoute.endPoint)
                                         
 //                                    self.performSegue(withIdentifier: "showTravel", sender: nil)
         }

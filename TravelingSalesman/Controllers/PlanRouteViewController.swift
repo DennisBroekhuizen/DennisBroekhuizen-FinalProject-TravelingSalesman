@@ -12,13 +12,15 @@ import GooglePlaces
 class PlanRouteViewController: UITableViewController {
     
     // Declaration of variables.
-    var sectionTitles: [String] = ["Route name", "Date", "Starting point", "Destinations"]
+    var sectionTitles: [String] = ["Route name", "Date", "Starting point", "Destinations", "End point"]
     var sectionSelected: Int?
     var isPickerHidden = true
     var routeName: String?
     var date: String?
     var startingPoint: String = "Choose starting point"
+    var endPoint: String = "Choose end point"
     var places: [String] = []
+    var placesCoordinates: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +43,7 @@ class PlanRouteViewController: UITableViewController {
 
     // Declaration of sections and rows in tableView.
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        return 6
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -81,6 +83,11 @@ class PlanRouteViewController: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "addDestinationCell", for: indexPath)
             
             return cell
+        case 5:
+            let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+            cell.textLabel?.text = endPoint
+            
+            return cell
         default: break
         }
         return UITableViewCell()
@@ -90,6 +97,8 @@ class PlanRouteViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section >= 0 && section <= 3 {
             return sectionTitles[section]
+        } else if section == 5 {
+            return sectionTitles.last
         } else {
             return nil
         }
@@ -114,6 +123,11 @@ class PlanRouteViewController: UITableViewController {
             let autocompleteController = GMSAutocompleteViewController()
             autocompleteController.delegate = self
             present(autocompleteController, animated: true, completion: nil)
+        case [5,0]:
+            sectionSelected = 5
+            let autocompleteController = GMSAutocompleteViewController()
+            autocompleteController.delegate = self
+            present(autocompleteController, animated: true, completion: nil)
             
         default: break
         }
@@ -133,6 +147,7 @@ class PlanRouteViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             places.remove(at: indexPath.row)
+            placesCoordinates.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
@@ -145,9 +160,10 @@ class PlanRouteViewController: UITableViewController {
             let indexpathForDate = IndexPath(row: 0, section: 1)
             let routeNameCell = tableView.cellForRow(at: indexpathForRouteName) as! RouteNameCell
             let dateCell = tableView.cellForRow(at: indexpathForDate) as! DateCell
-            let route = Route(name: routeNameCell.textField.text!, date: dateCell.dateLabel.text!, startingPoint: startingPoint, destinations: places)
+            let route = Route(name: routeNameCell.textField.text!, date: String(dateCell.dateLabel.text!), startingPoint: startingPoint, destinations: places, destinationsCoordinates: placesCoordinates, endPoint: endPoint)
             let optimizeRouteViewController = segue.destination as! OptimizeRouteViewController
             optimizeRouteViewController.optimizedRoute = route
+            print("De coordinaten: \(placesCoordinates)")
         }
     }
     
@@ -177,10 +193,16 @@ extension PlanRouteViewController: GMSAutocompleteViewControllerDelegate {
         // Add destination to route.
         if sectionSelected == 4 {
             places.append(place.formattedAddress!)
+            placesCoordinates.append("\(place.coordinate.latitude),\(place.coordinate.longitude)")
             let indexPath = IndexPath(row: places.count - 1, section: 3)
             tableView.beginUpdates()
             tableView.insertRows(at: [indexPath], with: .automatic)
             tableView.endUpdates()
+        }
+        
+        if sectionSelected == 5 {
+            endPoint = place.formattedAddress!
+            tableView.reloadData()
         }
     
         dismiss(animated: true, completion: nil)

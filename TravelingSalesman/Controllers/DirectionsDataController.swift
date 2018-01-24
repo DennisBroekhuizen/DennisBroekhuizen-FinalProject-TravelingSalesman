@@ -10,8 +10,8 @@ import Foundation
 
 // Controller to retrieve questions from trivia api.
 class DirectionsDataController {
-    func fetchDirections(startingPoint: String, destinations: [String], completion: @escaping (Directions?) -> Void) {
-        var tempUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=\(startingPoint)&destination=Gorinchem,NL"
+    func fetchDirections(startingPoint: String, destinations: [String], endPoint: String, completion: @escaping (Directions?) -> Void) {
+        var tempUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=\(startingPoint)&destination=\(endPoint)"
         
         tempUrl += "&waypoints=optimize:true%7c"
         

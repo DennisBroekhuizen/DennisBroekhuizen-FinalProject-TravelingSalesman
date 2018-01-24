@@ -21,12 +21,10 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
     var myLocation: CLLocation?
 
     var currentRoute: [Route] = []
-    var sectionTitles: [String] = ["Name", "Starting point", "Destinations"]
+    var sectionTitles: [String] = ["Name", "Starting point", "Destinations", "End point"]
     var selectedAddress: String?
-    var someLoc = CLLocation(latitude: 51.831953, longitude: 4.995684)
-    let markerLocation = CLLocation(latitude: 51.83246670, longitude: 4.97659020)
-    var sortedDestinations: [String] = []
     var destinationsCoordinates: [CLLocation] = [CLLocation(latitude: 51.571915, longitude: 4.768323),CLLocation(latitude: 51.504646, longitude: 3.891130), CLLocation(latitude: 50.851368, longitude: 5.690973), CLLocation(latitude: 53.219383, longitude: 6.566502), CLLocation(latitude: 53.164164, longitude: 5.781754), CLLocation(latitude: 52.160114, longitude: 4.497010)]
+    var desCoordinates: [CLLocation] = []
     
     // Refrence to leaderboard table in database.
     let ref = Database.database().reference(withPath: "users")
@@ -62,33 +60,39 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
             
             // Set new items to items array.
             self.currentRoute = newCurrentRoute
-            self.sortedDestinations = (newCurrentRoute.last?.destinations)!
             self.tableView.reloadData()
         })
+        
+//        let coordinates = currentRoute.last?.destinationsCoordinates
+//        if let coordinates = coordinates {
+//            print("hallo")
+//            print(coordinates)
+//            self.desCoordinates = coordinatesToCLLocation(coordinates: coordinates)
+//            print(desCoordinates)
+//        }
         
         // Disable row selection.
         tableView.allowsSelection = false
     }
     
-    func covertPlaceToCoor() {
-        for destinations in sortedDestinations {
-            geocoder.geocodeAddressString(destinations) {
-                placemarks, error in
-                let placemark = placemarks?.first?.location
-                if let placemark = placemark {
-                    self.destinationsCoordinates.append(placemark)
-                }
+    func coordinatesToCLLocation(coordinates: [String]) -> [CLLocation] {
+        var convertedCoordinates: [CLLocation] = []
+        for coordinate in coordinates {
+            let lat = coordinate.components(separatedBy: ",")[0]
+            let long = coordinate.components(separatedBy: ",")[1]
+            if let latitude =  Double(lat), let longitude = Double(long) {
+                convertedCoordinates.append(CLLocation(latitude: latitude, longitude: longitude))
             }
         }
-        print("test")
-        print(self.destinationsCoordinates)
+        return convertedCoordinates
     }
+    
     
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 3
+        return 4
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -113,14 +117,21 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
         case 0:
             cell.textLabel?.text = currentRoute.last?.name
             cell.selectionStyle = .none
+            
             return cell
         case 1:
             cell.textLabel?.text = currentRoute.last?.startingPoint
-            cell.selectionStyle = .none
+//            cell.selectionStyle = .none
+            tableView.allowsSelection = true
             return cell
         case 2:
             let destinationTitle = currentRoute.last?.destinations[indexPath.row]
             cell.textLabel?.text = destinationTitle
+            tableView.allowsSelection = true
+            return cell
+        case 3:
+            cell.textLabel?.text = currentRoute.last?.endPoint
+//            cell.selectionStyle = .none
             tableView.allowsSelection = true
             return cell
         default: break
@@ -132,17 +143,25 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else { return }
         switch (indexPath.section) {
+        case 1:
+            selectedAddress = cell.textLabel?.text
+            openInMapsButton.setTitle("Open address in maps",for: .normal)
+            openInMapsButton.isEnabled = true
         case 2:
             selectedAddress = cell.textLabel?.text
             openInMapsButton.setTitle("Open address in maps",for: .normal)
             openInMapsButton.isEnabled = true
             print(selectedAddress!)
+        case 3:
+            selectedAddress = cell.textLabel?.text
+            openInMapsButton.setTitle("Open address in maps",for: .normal)
+            openInMapsButton.isEnabled = true
         default: break
         }
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section >= 0 && section <= 3 {
+        if section >= 0 && section <= 4 {
             return sectionTitles[section]
         } else {
             return nil
@@ -184,12 +203,19 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             print(location.coordinate)
+            let coordinates = currentRoute.last?.destinationsCoordinates
+            if let coordinates = coordinates {
+                print("hallo")
+                print(coordinates)
+                self.desCoordinates = coordinatesToCLLocation(coordinates: coordinates)
+                print(desCoordinates)
+            }
             myLocation = location
-            for (index, destination) in destinationsCoordinates.enumerated()  {
+            for (index, destination) in desCoordinates.enumerated()  {
                 if let myLocation = self.myLocation {
                     let afstand = myLocation.distance(from: destination)
                     print("De afstand van \(index) is \(afstand).")
-                        if afstand < 100000 {
+                        if afstand < 200 {
                             print("kleiner")
                             print(afstand)
                             let indexPath = IndexPath(row: index, section: 2)

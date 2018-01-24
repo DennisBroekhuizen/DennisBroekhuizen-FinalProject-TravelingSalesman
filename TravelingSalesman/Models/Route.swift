@@ -8,19 +8,24 @@
 
 import Foundation
 import FirebaseDatabase
+import CoreLocation
 
 struct Route {
     var name: String
     var date: String
     var startingPoint: String
     var destinations: [String]
+    var destinationsCoordinates: [String]
+    var endPoint: String
     let ref: DatabaseReference?
     
-    init(name: String, date: String, startingPoint: String, destinations: [String]) {
+    init(name: String, date: String, startingPoint: String, destinations: [String], destinationsCoordinates: [String], endPoint: String) {
         self.name = name
         self.date = date
         self.startingPoint = startingPoint
         self.destinations = destinations
+        self.destinationsCoordinates = destinationsCoordinates
+        self.endPoint = endPoint
         self.ref = nil
     }
     
@@ -30,6 +35,8 @@ struct Route {
         name = snapshotValue["name"] as! String
         startingPoint = snapshotValue["startingPoint"] as! String
         destinations = snapshotValue["destinations"] as! [String]
+        destinationsCoordinates = snapshotValue["destinationsCoordinates"] as! [String]
+        endPoint = snapshotValue["endPoint"] as! String
         ref = snapshot.ref
     }
     
