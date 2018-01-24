@@ -165,6 +165,7 @@ extension PlanRouteViewController: GMSAutocompleteViewControllerDelegate {
         print("Place name: \(place.name)")
         print("Place address: \(String(describing: place.formattedAddress))")
         print("Place attributions: \(String(describing: place.attributions))")
+        print(place.coordinate)
         
         // Change starting point.
         if sectionSelected == 2 {
