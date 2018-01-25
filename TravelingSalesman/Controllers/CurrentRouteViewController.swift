@@ -33,14 +33,17 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         locationManager.requestAlwaysAuthorization()
-        // If location services is enabled get the users location
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest // You can change the locaiton accuary here.
-            locationManager.startUpdatingLocation()
-        }
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest // You can change the locaiton accuary here.
+//        locationManager.requestAlwaysAuthorization()
+//        // If location services is enabled get the users location
+//        if CLLocationManager.locationServicesEnabled() {
+//            locationManager.delegate = self
+//            locationManager.desiredAccuracy = kCLLocationAccuracyBest // You can change the locaiton accuary here.
+//            locationManager.startUpdatingLocation()
+//            setUpGeofenceForPlayaGrandeBeach()
+//        }
         
         // Open in Apple Maps button handling.
         openInMapsButton.isEnabled = false
@@ -60,6 +63,15 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
             
             // Set new items to items array.
             self.currentRoute = newCurrentRoute
+            // If location services is enabled get the users location
+            let coordinates = self.currentRoute.last?.destinationsCoordinates
+            if let coordinates = coordinates {
+                self.desCoordinates = self.coordinatesToCLLocation(coordinates: coordinates)
+            }
+            if CLLocationManager.locationServicesEnabled() {
+                self.setUpGeofenceForPlayaGrandeBeach()
+                self.locationManager.startUpdatingLocation()
+            }
             self.tableView.reloadData()
         })
         
@@ -86,6 +98,30 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
         }
         return convertedCoordinates
     }
+    
+    func setUpGeofenceForPlayaGrandeBeach() {
+        print("hallo setting geofence")
+        print(desCoordinates)
+        for destination in desCoordinates {
+            print("in de for loop")
+//            let geofenceRegionCenter = CLLocationCoordinate2DMake(destination.);
+            let geofenceRegion = CLCircularRegion(center: destination.coordinate, radius: 400, identifier: "Destination");
+            geofenceRegion.notifyOnExit = false;
+            geofenceRegion.notifyOnEntry = true;
+            self.locationManager.startMonitoring(for: geofenceRegion)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        print("Welcome to Playa Grande! If the waves are good, you can try surfing!")
+        //Good place to schedule a local notification
+    }
+    
+//    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+//        if (status == CLAuthorizationStatus.authorizedAlways) {
+//            self.setUpGeofenceForPlayaGrandeBeach()
+//        }
+//    }
     
     
     // MARK: - Table view data source
@@ -190,7 +226,6 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
     
     @IBAction func didTapOpenInMaps(_ sender: Any) {
         let address = selectedAddress?.replacingOccurrences(of: " ", with: "")
-        print(address!)
         UIApplication.shared.open(NSURL(string: "http://maps.apple.com/?address=\(address!)")! as URL, options: [:])
     }
     
@@ -202,19 +237,19 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
     // Print out the location to the console
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
-            print(location.coordinate)
-            let coordinates = currentRoute.last?.destinationsCoordinates
-            if let coordinates = coordinates {
-                print("hallo")
-                print(coordinates)
-                self.desCoordinates = coordinatesToCLLocation(coordinates: coordinates)
-                print(desCoordinates)
-            }
+//            print(location.coordinate)
+//            let coordinates = currentRoute.last?.destinationsCoordinates
+//            if let coordinates = coordinates {
+////                print("hallo")
+////                print(coordinates)
+//                self.desCoordinates = coordinatesToCLLocation(coordinates: coordinates)
+////                print(desCoordinates)
+//            }
             myLocation = location
             for (index, destination) in desCoordinates.enumerated()  {
                 if let myLocation = self.myLocation {
                     let afstand = myLocation.distance(from: destination)
-                    print("De afstand van \(index) is \(afstand).")
+//                    print("De afstand van \(index) is \(afstand).")
                         if afstand < 200 {
                             print("kleiner")
                             print(afstand)

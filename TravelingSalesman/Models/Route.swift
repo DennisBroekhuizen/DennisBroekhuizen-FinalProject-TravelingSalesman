@@ -44,6 +44,7 @@ struct Route {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         formatter.timeStyle = .short
+        formatter.locale = Locale(identifier: "nl_NL")
         return formatter
     }()
 }

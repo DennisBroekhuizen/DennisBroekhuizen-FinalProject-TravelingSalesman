@@ -9,21 +9,24 @@
 import UIKit
 import GooglePlaces
 
-class PlanRouteViewController: UITableViewController {
+class PlanRouteViewController: UITableViewController, UITextFieldDelegate {
     
-    // Declaration of variables.
-    var sectionTitles: [String] = ["Route name", "Date", "Starting point", "Destinations", "End point"]
+    // TableView variables.
+    var sectionTitles: [String] = ["Route name", "Date", "Starting point", "Waypoint(s)", "End point"]
     var sectionSelected: Int?
     var isPickerHidden = true
+    
+    // Variables of route.
     var routeName: String?
     var date: String?
-    var startingPoint: String = "Choose starting point"
-    var endPoint: String = "Choose end point"
-    var places: [String] = []
-    var placesCoordinates: [String] = []
+    var startingPoint: String?
+    var waypoints: [String] = []
+    var waypointCoordinates: [String] = []
+    var endPoint: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Remove row seperator line for unfilled rows.
         tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
@@ -33,11 +36,10 @@ class PlanRouteViewController: UITableViewController {
         indexPath: IndexPath) -> CGFloat {
         let normalCellHeight = CGFloat(44)
         let largeCellHeight = CGFloat(200)
-        
-        switch(indexPath) {
-        case [1,0]:
+        if indexPath == [1,0] {
             return isPickerHidden ? normalCellHeight: largeCellHeight
-        default: return normalCellHeight
+        } else {
+            return normalCellHeight
         }
     }
 
@@ -48,7 +50,7 @@ class PlanRouteViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 3 {
-            return places.count
+            return waypoints.count
         } else {
             return 1
         }
@@ -59,8 +61,6 @@ class PlanRouteViewController: UITableViewController {
         switch (indexPath.section) {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "routeNameCell", for: indexPath) as! RouteNameCell
-            cell.configure(text: "")
-            routeName = cell.textField.text
 
             return cell
         case 1:
@@ -70,11 +70,13 @@ class PlanRouteViewController: UITableViewController {
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "startingPointCell", for: indexPath) as! StartingPointCell
-            cell.startingPointLabel.text = startingPoint
+            if startingPoint != nil {
+                cell.startingPointLabel.text = startingPoint
+            }
             
             return cell
         case 3:
-            let destinationTitle = places[indexPath.row]
+            let destinationTitle = waypoints[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "destinationCell", for: indexPath) as! DestinationCell
             cell.titleLabel.text = destinationTitle
             
@@ -85,7 +87,11 @@ class PlanRouteViewController: UITableViewController {
             return cell
         case 5:
             let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-            cell.textLabel?.text = endPoint
+            if endPoint != nil {
+                cell.textLabel?.text = endPoint
+            } else {
+                cell.textLabel?.text = "Choose end point"
+            }
             
             return cell
         default: break
@@ -114,27 +120,21 @@ class PlanRouteViewController: UITableViewController {
             tableView.endUpdates()
         case [2,0]:
             sectionSelected = 2
-            let autocompleteController = GMSAutocompleteViewController()
-            autocompleteController.delegate = self
-            present(autocompleteController, animated: true, completion: nil)
+            performGooglePLacesAutocomplete()
 //            self.performSegue (withIdentifier: "showSearch", sender: self)
         case [4,0]:
             sectionSelected = 4
-            let autocompleteController = GMSAutocompleteViewController()
-            autocompleteController.delegate = self
-            present(autocompleteController, animated: true, completion: nil)
+            performGooglePLacesAutocomplete()
         case [5,0]:
             sectionSelected = 5
-            let autocompleteController = GMSAutocompleteViewController()
-            autocompleteController.delegate = self
-            present(autocompleteController, animated: true, completion: nil)
-            
+            performGooglePLacesAutocomplete()
         default: break
         }
     }
     
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        // Allow user to only delete waypoints.
         if indexPath.section == 3 {
             return true
         } else {
@@ -146,28 +146,57 @@ class PlanRouteViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            places.remove(at: indexPath.row)
-            placesCoordinates.remove(at: indexPath.row)
+            waypoints.remove(at: indexPath.row)
+            waypointCoordinates.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
+    }
+    
+    // Call Google Places API.
+    func performGooglePLacesAutocomplete() {
+        let autocompleteController = GMSAutocompleteViewController()
+        autocompleteController.delegate = self
+        present(autocompleteController, animated: true, completion: nil)
+    }
+    
+    // Alert user when fields are empty.
+    func validationCheckMessage() {
+        let alert = UIAlertController(title: "Please fill in all fields",
+                                      message: "",
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok",
+                                     style: .default)
+        alert.addAction(okAction)
+        
+        present(alert, animated: true, completion: nil)
     }
     
     // Pass data to next viewController.
     override func prepare(for segue: UIStoryboardSegue, sender:
         Any?) {
         if segue.identifier == "optimizeSegue" {
+            // Prepare to pass route name and date to next ViewController.
             let indexpathForRouteName = IndexPath(row: 0, section: 0)
             let indexpathForDate = IndexPath(row: 0, section: 1)
             let routeNameCell = tableView.cellForRow(at: indexpathForRouteName) as! RouteNameCell
             let dateCell = tableView.cellForRow(at: indexpathForDate) as! DateCell
-            let route = Route(name: routeNameCell.textField.text!, date: String(dateCell.dateLabel.text!), startingPoint: startingPoint, destinations: places, destinationsCoordinates: placesCoordinates, endPoint: endPoint)
+            routeName = routeNameCell.textField.text
+            date = dateCell.dateLabel.text
+            
+            // Check if all fields are filled in correctly.
+            guard let routeName = routeName, routeName != "", let date = date,
+                  let startingPoint = startingPoint, waypoints.count != 0, let endPoint = endPoint
+                  else { validationCheckMessage(); return }
+            
+            // Pass planned route to next screen to optimize.
+            let route = Route(name: routeName, date: date, startingPoint: startingPoint, destinations: waypoints, destinationsCoordinates: waypointCoordinates, endPoint: endPoint)
             let optimizeRouteViewController = segue.destination as! OptimizeRouteViewController
             optimizeRouteViewController.optimizedRoute = route
-            print("De coordinaten: \(placesCoordinates)")
+            print("De coordinaten: \(waypointCoordinates)")
         }
     }
     
-    // Segue to send user back to planRouteViewController.
+    // Segue to send user back to PlanRouteViewController.
     @IBAction func unwindToPlanRoute(segue: UIStoryboardSegue) {
     }
     
@@ -178,28 +207,24 @@ extension PlanRouteViewController: GMSAutocompleteViewControllerDelegate {
     
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        print("Place name: \(place.name)")
-        print("Place address: \(String(describing: place.formattedAddress))")
-        print("Place attributions: \(String(describing: place.attributions))")
-        print(place.coordinate)
         
         // Change starting point.
         if sectionSelected == 2 {
-            print("starting point")
             startingPoint = place.formattedAddress!
             tableView.reloadData()
         }
         
-        // Add destination to route.
+        // Add waypoint to route.
         if sectionSelected == 4 {
-            places.append(place.formattedAddress!)
-            placesCoordinates.append("\(place.coordinate.latitude),\(place.coordinate.longitude)")
-            let indexPath = IndexPath(row: places.count - 1, section: 3)
+            waypoints.append(place.formattedAddress!)
+            waypointCoordinates.append("\(place.coordinate.latitude),\(place.coordinate.longitude)")
+            let indexPath = IndexPath(row: waypoints.count - 1, section: 3)
             tableView.beginUpdates()
             tableView.insertRows(at: [indexPath], with: .automatic)
             tableView.endUpdates()
         }
         
+        // Change end point.
         if sectionSelected == 5 {
             endPoint = place.formattedAddress!
             tableView.reloadData()

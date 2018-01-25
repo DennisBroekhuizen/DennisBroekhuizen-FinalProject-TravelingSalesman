@@ -17,7 +17,6 @@
 		42379C6D20115C1B00BF68EF /* TextLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42379C6C20115C1B00BF68EF /* TextLabelCell.swift */; };
 		42379C6F2011E6CF00BF68EF /* DirectionsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42379C6E2011E6CF00BF68EF /* DirectionsData.swift */; };
 		42379C712011E99800BF68EF /* DirectionsDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42379C702011E99800BF68EF /* DirectionsDataController.swift */; };
-		42379C732011F46000BF68EF /* URL+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42379C722011F46000BF68EF /* URL+Helpers.swift */; };
 		4250C4B620123C06008E958E /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4250C4B520123C06008E958E /* ContactsViewController.swift */; };
 		4265E0A5200FFD9A00A944A5 /* HeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4265E0A4200FFD9A00A944A5 /* HeaderCell.swift */; };
 		426F178E200A91B700C3EE30 /* Arciform.otf in Resources */ = {isa = PBXBuildFile; fileRef = 426F178D200A91B700C3EE30 /* Arciform.otf */; };
@@ -54,7 +53,6 @@
 		42379C6C20115C1B00BF68EF /* TextLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLabelCell.swift; sourceTree = "<group>"; };
 		42379C6E2011E6CF00BF68EF /* DirectionsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsData.swift; sourceTree = "<group>"; };
 		42379C702011E99800BF68EF /* DirectionsDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsDataController.swift; sourceTree = "<group>"; };
-		42379C722011F46000BF68EF /* URL+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Helpers.swift"; sourceTree = "<group>"; };
 		4250C4B520123C06008E958E /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		4265E0A4200FFD9A00A944A5 /* HeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCell.swift; sourceTree = "<group>"; };
 		426F178D200A91B700C3EE30 /* Arciform.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Arciform.otf; sourceTree = "<group>"; };
@@ -146,7 +144,6 @@
 			isa = PBXGroup;
 			children = (
 				42915AEE2012514F00D3D648 /* Custom cells */,
-				42379C722011F46000BF68EF /* URL+Helpers.swift */,
 				42E94F882008103900FE5DCA /* Route.swift */,
 				42379C6E2011E6CF00BF68EF /* DirectionsData.swift */,
 				42915AF32012AC3100D3D648 /* ContactsData.swift */,
@@ -367,7 +364,6 @@
 				42915AFC20161D5700D3D648 /* RouteDetailViewController.swift in Sources */,
 				4265E0A5200FFD9A00A944A5 /* HeaderCell.swift in Sources */,
 				42915B0220172FE100D3D648 /* CurrentRouteViewController.swift in Sources */,
-				42379C732011F46000BF68EF /* URL+Helpers.swift in Sources */,
 				42379C6B2011542100BF68EF /* RouteNameCell.swift in Sources */,
 				427E5357200D15A500CF5EB5 /* PlanRouteViewController.swift in Sources */,
 			);

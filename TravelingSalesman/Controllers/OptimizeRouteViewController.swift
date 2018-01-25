@@ -13,23 +13,32 @@ import CoreLocation
 
 class OptimizeRouteViewController: UITableViewController {
     
-    var optimizedRoute: Route!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     var sectionTitles: [String] = ["Route name", "Date", "Starting point", "Destinations", "End point"]
+    
+    // Route variables.
+    var optimizedRoute: Route!
     var optimizedIndex: [Int] = []
     var optimizedDestinations: [String] = []
     var optimizedCoordinates: [String] = []
-    let directionsDataController = DirectionsDataController()
     
+    // Firebase reference.
     let userID = Auth.auth().currentUser?.uid
     let ref = Database.database().reference(withPath: "users")
+    
+    // Google Directions API controller.
+    let directionsDataController = DirectionsDataController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Disable save button until API is finised loading.
+        saveButton.isEnabled = false
+        
         directionsDataController.fetchDirections(startingPoint: optimizedRoute.startingPoint, destinations: optimizedRoute.destinations, endPoint: optimizedRoute.endPoint) { (directions) in
             if let directions = directions {
                 DispatchQueue.main.async {
-                    // Load API info into questions array.
+                    // Retrieve optim
                     self.optimizedIndex = directions.routes![0].waypoint_order!
                     let lenDestinations = self.optimizedRoute.destinations.count - 1
                     
@@ -47,6 +56,7 @@ class OptimizeRouteViewController: UITableViewController {
                     self.optimizedRoute.destinations = self.optimizedDestinations
                     self.optimizedRoute.destinationsCoordinates = self.optimizedCoordinates
                     self.tableView.reloadData()
+                    self.saveButton.isEnabled = true
                 }
             }
         }
@@ -101,6 +111,16 @@ class OptimizeRouteViewController: UITableViewController {
         }
     }
     
+    func errorMessage() {
+        let alert = UIAlertController(title: "Oops",
+                                      message: "Something went wrong while saving your route. Please try again.",
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok",
+                                         style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
     @IBAction func saveButtonDidTouch(_ sender: Any) {
         let alert = UIAlertController(title: "Save",
                                       message: "Are you sure you want to save this route?",
@@ -110,16 +130,17 @@ class OptimizeRouteViewController: UITableViewController {
                                          style: .default)
         let saveAction = UIAlertAction(title: "Yes",
                                        style: .default) { _ in
-                                        
+                                        guard let optimizedRoute = self.optimizedRoute
+                                              else { self.errorMessage(); return }
                                         let currentUser = self.ref.child(self.userID!)
                                         
-                                        let newRoute = currentUser.child("routes").child(self.optimizedRoute.date)
+                                        let newRoute = currentUser.child("routes").child(optimizedRoute.date)
                                         
-                                            newRoute.child("name").setValue(self.optimizedRoute.name)
-                                        newRoute.child("startingPoint").setValue(self.optimizedRoute.startingPoint)
-                                        newRoute.child("destinations").setValue(self.optimizedRoute.destinations)
-                                        newRoute.child("destinationsCoordinates").setValue(self.optimizedRoute.destinationsCoordinates)
-                                        newRoute.child("endPoint").setValue(self.optimizedRoute.endPoint)
+                                            newRoute.child("name").setValue(optimizedRoute.name)
+                                        newRoute.child("startingPoint").setValue(optimizedRoute.startingPoint)
+                                        newRoute.child("destinations").setValue(optimizedRoute.destinations)
+                                        newRoute.child("destinationsCoordinates").setValue(optimizedRoute.destinationsCoordinates)
+                                        newRoute.child("endPoint").setValue(optimizedRoute.endPoint)
                                         
 //                                    self.performSegue(withIdentifier: "showTravel", sender: nil)
         }
@@ -129,6 +150,5 @@ class OptimizeRouteViewController: UITableViewController {
         
         present(alert, animated: true, completion: nil)
     }
-    
     
 }
