@@ -38,3 +38,10 @@ Summary of important decisions made while making my final app.
 * Routes can be started correctly, by showing them in CurrentRouteViewController.
 * Addresses in route can be opened in Apple Maps, by selecting a row in tableView.
 * Started looking into checking a users current location and comparing it to the addresses in current route. Still a difficult function to implement.
+
+# Day 3
+* Able to check current location with addresses in started route while viewing the started route screen. When a user is 100 meters from an address in the route, it will show a checkmark at the given address. To check the addresses with the current location of a user, I had to convert the addresses to coordinates. Tried this with a build in function, which coverts addresses to CLLocation. The problem with this function is that it's an asynchronic function. The function didn't solve my problem as quick as I needed it and I ended up with an empty array, without any coordinates. After that I tried to store the CLLocation of the addresses to Firebase when the user requests the addresses. This also caused some problems, so I finally saved the coordinates as a string to Firebase. In the started route screen, I convert these coordinate strings to an array of CLLocations. After that I was finally able to check a users current location with the addresses in the route.
+
+# Day 4
+* Fixed some bugs which caused my app to crash. For example: it's now required to fill in all fields in the planning screen, because when the optimize screen is missing some information it will crash the app. I also safely unwrapped some variables which also caused some problems sometimes.
+* Found out that it's not allowed to store forward slashes into Firebase keys. This happened when I used my app in the simulator, when storing the date as a key to firebase. The dateFormatter converted the date into a string with forward slashes because of the device language. Fixed it by setting the dateFormatter locale to nl_Nl. This will always convert a date to a string with dashes, which is allowed in a Firebase key.
