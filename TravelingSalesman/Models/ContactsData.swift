@@ -13,12 +13,14 @@ import FirebaseDatabase
 struct Contact {
     let name: String
     let address: String
+    let coordinates: String
     let ref: DatabaseReference?
     
     init(snapshot: DataSnapshot) {
         name = snapshot.key
         let snapshotValue = snapshot.value as! [String: AnyObject]
         address = snapshotValue["address"] as! String
+        coordinates = snapshotValue["coordinates"] as! String
         ref = snapshot.ref
     }
 }

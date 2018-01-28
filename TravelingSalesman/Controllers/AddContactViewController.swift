@@ -16,6 +16,7 @@ class AddContactViewController: UITableViewController {
     @IBOutlet weak var contactName: UITextField!
     @IBOutlet weak var contactAddress: UILabel!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    var contactCoordinates: String!
     
     let userID = Auth.auth().currentUser?.uid
     let ref = Database.database().reference(withPath: "users")
@@ -77,9 +78,14 @@ class AddContactViewController: UITableViewController {
         let saveAction = UIAlertAction(title: "Yes",
                                        style: .default) { _ in
                                         
-                                        let currentUser = self.ref.child(self.userID!)
+                                        let contacts = self.ref.child(self.userID!).child("contacts")
                                         
-                                    currentUser.child("contacts").child(self.contactName.text!).child("address").setValue(self.contactAddress.text!)
+                                        let newContact = contacts.child(self.contactName.text!)
+                                        
+                                        let post = ["address": self.contactAddress.text!,
+                                                    "coordinates": self.contactCoordinates] as [String : Any]
+                                        
+                                        newContact.setValue(post)
                                         
                                         self.performSegue(withIdentifier: "unwindToContacts", sender: nil)
         }
@@ -107,6 +113,7 @@ extension AddContactViewController: GMSAutocompleteViewControllerDelegate {
         
         // Update address label in view.
         contactAddress.text = place.formattedAddress!
+        contactCoordinates = "\(place.coordinate.latitude),\(place.coordinate.longitude)"
         
         dismiss(animated: true, completion: nil)
     }

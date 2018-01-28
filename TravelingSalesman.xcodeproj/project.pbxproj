@@ -160,11 +160,11 @@
 				42915AEF2012613500D3D648 /* AddContactViewController.swift */,
 				427E5354200CF41600CF5EB5 /* MainViewController.swift */,
 				427E5356200D15A500CF5EB5 /* PlanRouteViewController.swift */,
+				42915AFF2016910800D3D648 /* SearchViewController.swift */,
 				42E94F8620080D1D00FE5DCA /* OptimizeRouteViewController.swift */,
 				42379C702011E99800BF68EF /* DirectionsDataController.swift */,
 				42915AF52015FBFE00D3D648 /* TravelViewController.swift */,
 				42915AFB20161D5700D3D648 /* RouteDetailViewController.swift */,
-				42915AFF2016910800D3D648 /* SearchViewController.swift */,
 				42915B0120172FE100D3D648 /* CurrentRouteViewController.swift */,
 			);
 			path = Controllers;

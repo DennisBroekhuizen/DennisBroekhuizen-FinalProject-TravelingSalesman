@@ -12,6 +12,10 @@ import FirebaseDatabase
 
 class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet var noDateView: UIView!
+    
+    @IBOutlet var loadingView: UIView!
+    
     @IBOutlet weak var tableView: UITableView!
     var sectionTitles: [String] = ["Routes"]
     var routes: [Route] = []
@@ -23,6 +27,10 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if routes.count == 0 {
+            self.tableView.backgroundView = self.loadingView
+        }
         
         let routesRef = ref.child(self.userID!).child("routes")
         
@@ -39,6 +47,12 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
             // Set new items to items array
             self.routes = newRoutes
             self.tableView.reloadData()
+            if self.routes.count == 0 {
+                self.tableView.backgroundView = self.noDateView
+            } else {
+                self.tableView.backgroundView = nil
+            }
+//            self.tableView.backgroundView = nil
         })
         
         // Remove row seperator line for unfilled rows.
@@ -51,7 +65,10 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if routes.count == 1 {
+        if routes.count == 0 {
+//            self.tableView.backgroundView = self.noDateView
+            return 0
+        } else if routes.count == 1 {
             return 1
         } else {
             return routes.count - 1
@@ -60,10 +77,10 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "routeCell", for: indexPath) as! RouteCell
+        
         let loadedRoutes = routes[indexPath.row]
-
         cell.routeLabel.text = loadedRoutes.name
-
+        
         return cell
     }
 

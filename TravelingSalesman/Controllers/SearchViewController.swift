@@ -9,44 +9,52 @@
 //  https://www.raywenderlich.com/157864/uisearchcontroller-tutorial-getting-started
 
 import UIKit
-import MapKit
 import FirebaseAuth
 import FirebaseDatabase
+import GooglePlaces
+
 
 class SearchViewController: UIViewController {
     
-    // Declare array to load in all userscores.
+    var searchController = UISearchController(searchResultsController: nil)
+
+    // Declare array to load in all (filtered) contacts.
     var contacts: [Contact] = []
     var filteredContacts: [Contact] = []
-    var chosenAddress: String?
+    
+    var chosenAddress: String!
+    var addressCoordinates: String!
     
     // Refrence to leaderboard table in database.
     let ref = Database.database().reference(withPath: "users")
-    
     let userID = Auth.auth().currentUser?.uid
     
-    var searchCompleter = MKLocalSearchCompleter()
-    var searchResults = [MKLocalSearchCompletion]()
-    let searchController = UISearchController(searchResultsController: nil)
-    
-    @IBOutlet weak var searchResultsTableView: UITableView!
+    // Outlets.
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
         // Setup the Search Controller
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Address"
         searchController.searchBar.tintColor = UIColor.white
-        navigationItem.searchController = searchController
+        searchController.searchBar.placeholder = "Search Contacts"
+        // Put the search bar in the navigation bar.
+        searchController.searchBar.sizeToFit()
+        navigationItem.titleView = searchController.searchBar
+        
         definesPresentationContext = true
         
-        // Setup the Scope Bar
-        searchController.searchBar.scopeButtonTitles = ["Online", "Contacts"]
+        // Prevent the navigation bar from being hidden when searching.
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.showsCancelButton = true
         searchController.searchBar.delegate = self
         
-        searchCompleter.delegate = self
+        // Hide bottom border of navigation bar.
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        navigationController?.navigationBar.shadowImage = UIImage()
         
         let currentUser = ref.child(self.userID!).child("contacts")
         
@@ -62,6 +70,7 @@ class SearchViewController: UIViewController {
             
             // Set new items to items array
             self.contacts = newContacts
+            self.tableView.reloadData()
         })
     }
     
@@ -73,7 +82,7 @@ class SearchViewController: UIViewController {
                 return contact.name.lowercased().contains(searchText.lowercased())
             }
         })
-        searchResultsTableView.reloadData()
+        tableView.reloadData()
     }
     
     func searchBarIsEmpty() -> Bool {
@@ -85,38 +94,33 @@ class SearchViewController: UIViewController {
         return searchController.isActive && (!searchBarIsEmpty() || searchBarScopeIsFiltering)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender:
-        Any?) {
-        if segue.identifier == "unwindToPlanRoute" {
-            print("test")
-            let planRouteViewController = segue.destination as! PlanRouteViewController
-            planRouteViewController.startingPoint = chosenAddress!
+    
+    @IBAction func segmentedIndexChanged(_ sender: Any) {
+        if segmentedControl.selectedSegmentIndex == 1 {
+            let autocompleteController = GMSAutocompleteViewController()
+            autocompleteController.delegate = self
+            present(autocompleteController, animated: true, completion: nil)
         }
     }
     
 }
 
 extension SearchViewController: UISearchBarDelegate {
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        searchCompleter.queryFragment = searchText
-    }
-    
+    // MARK: - UISearchBar Delegate
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         filterContentForSearchText(searchBar.text!)
     }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        dismiss(animated: true, completion: nil)
+//        performSegue(withIdentifier: "unwindToPlanRoute", sender: nil)
+    }
 }
 
-extension SearchViewController: MKLocalSearchCompleterDelegate {
-    
-    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        searchResults = completer.results
-        searchResultsTableView.reloadData()
-    }
-    
-    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
-        // handle error
+extension SearchViewController: UISearchResultsUpdating {
+    // MARK: - UISearchResultsUpdating Delegate
+    func updateSearchResults(for searchController: UISearchController) {
+        //        let searchBar = searchController.searchBar
+            filterContentForSearchText(searchController.searchBar.text!)
     }
 }
 
@@ -127,68 +131,72 @@ extension SearchViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchController.searchBar.selectedScopeButtonIndex == 0 {
-            return searchResults.count
-        } else {
+        if isFiltering() {
             return filteredContacts.count
         }
+        return contacts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // Declare cell and items.
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        if searchController.searchBar.selectedScopeButtonIndex == 0 {
-            let searchResult = searchResults[indexPath.row]
-            cell.textLabel?.text = searchResult.title
-            cell.detailTextLabel?.text = searchResult.subtitle
-            return cell
+        let loadedContacts: Contact?
+        if isFiltering(){
+            loadedContacts = filteredContacts[indexPath.row]
         } else {
-            let loadedContacts: Contact?
-            if isFiltering(){
-                loadedContacts = filteredContacts[indexPath.row]
-            } else {
-                loadedContacts = contacts[indexPath.row]
-            }
-            
-            cell.textLabel?.text = loadedContacts?.name
-            cell.detailTextLabel?.text = loadedContacts?.address
-            return cell
+            loadedContacts = contacts[indexPath.row]
         }
+        
+        // Set leaderboard items to cell elements.
+        cell.textLabel?.text = loadedContacts?.name
+        cell.detailTextLabel?.text = loadedContacts?.address
+        return cell
     }
 }
 
 extension SearchViewController: UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if searchController.searchBar.selectedScopeButtonIndex == 0 {
-            let completion = searchResults[indexPath.row]
-            
-            let searchRequest = MKLocalSearchRequest(completion: completion)
-            let search = MKLocalSearch(request: searchRequest)
-            search.start { (response, error) in
-                let coordinate = response?.mapItems[0].placemark.coordinate
-                print(String(describing: coordinate))
-            }
+        if isFiltering(){
+            chosenAddress = filteredContacts[indexPath.row].address
+            addressCoordinates = filteredContacts[indexPath.row].coordinates
+        } else {
+            chosenAddress = contacts[indexPath.row].address
+            addressCoordinates = contacts[indexPath.row].coordinates
         }
-        else {
-            let loadedContacts: Contact!
-            if isFiltering(){
-                loadedContacts = filteredContacts[indexPath.row]
-            } else {
-                loadedContacts = contacts[indexPath.row]
-            }
-            chosenAddress = loadedContacts.address
-            self.performSegue(withIdentifier: "unwindToPlanRoute", sender: nil)
-            print(loadedContacts.address)
-        }
+        performSegue(withIdentifier: "unwindToPlanRoute", sender: nil)
     }
 }
 
-extension SearchViewController: UISearchResultsUpdating {
-    // MARK: - UISearchResultsUpdating Delegate
-    func updateSearchResults(for searchController: UISearchController) {
-        //        let searchBar = searchController.searchBar
-        filterContentForSearchText(searchController.searchBar.text!)
+extension SearchViewController: GMSAutocompleteViewControllerDelegate {
+    
+    // Handle the user's selection.
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+        print("Place name: \(place.name)")
+        chosenAddress = place.formattedAddress!
+        addressCoordinates = "\(place.coordinate.latitude),\(place.coordinate.longitude)"
+        dismiss(animated: false, completion: nil)
+        performSegue(withIdentifier: "unwindToPlanRoute", sender: nil)
     }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        // TODO: handle the error.
+        print("Error: ", error.localizedDescription)
+    }
+    
+    // User canceled the operation.
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        dismiss(animated: false, completion: nil)
+        performSegue(withIdentifier: "unwindToPlanRoute", sender: nil)
+    }
+    
+    // Turn the network activity indicator on and off again.
+    func didRequestAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+    }
+    
+    func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+    }
+    
 }
-

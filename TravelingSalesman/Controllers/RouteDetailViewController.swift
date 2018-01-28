@@ -84,21 +84,23 @@ class RouteDetailViewController: UITableViewController {
         let cancelAction = UIAlertAction(title: "Cancel",
                                          style: .default)
         let saveAction = UIAlertAction(title: "Yes",
-                                       style: .default) { _ in
+                         style: .default) { _ in
                                         
-                                        let currentUser = self.ref.child(self.userID!)
+                        let currentUser = self.ref.child(self.userID!)
                                         
-                                        let currentRoute = currentUser.child("routes").child("currentRoute")
+                        let currentRoute = currentUser.child("routes").child("currentRoute")
 //                                        currentUser.child("coor").setValue(self.coor)
 //                                        currentRoute.child("date").setValue(self.chosenRoute.date)
                                         
-                                        currentRoute.child("name").setValue(self.chosenRoute.name)
-                                        currentRoute.child("startingPoint").setValue(self.chosenRoute.startingPoint)
-                                        currentRoute.child("destinations").setValue(self.chosenRoute.destinations)
-                                        currentRoute.child("destinationsCoordinates").setValue(self.chosenRoute.destinationsCoordinates)
-                                        currentRoute.child("endPoint").setValue(self.chosenRoute.endPoint)
+                        let post = ["name": self.chosenRoute.name,
+                                    "startingPoint": self.chosenRoute.startingPoint,
+                                    "destinations": self.chosenRoute.destinations,
+                                    "destinationsCoordinates": self.chosenRoute.destinationsCoordinates,
+                                    "endPoint": self.chosenRoute.endPoint] as [String : Any]
+                    
+                        currentRoute.setValue(post)
                                         
-                                        self.performSegue(withIdentifier: "startedRoute", sender: nil)
+                        self.performSegue(withIdentifier: "startedRoute", sender: nil)
         }
         
         alert.addAction(cancelAction)

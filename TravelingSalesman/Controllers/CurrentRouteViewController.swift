@@ -249,7 +249,7 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
             for (index, destination) in desCoordinates.enumerated()  {
                 if let myLocation = self.myLocation {
                     let afstand = myLocation.distance(from: destination)
-//                    print("De afstand van \(index) is \(afstand).")
+                    print("De afstand van \(index) is \(afstand).")
                         if afstand < 200 {
                             print("kleiner")
                             print(afstand)

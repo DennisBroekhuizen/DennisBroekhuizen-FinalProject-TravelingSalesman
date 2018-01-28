@@ -12,7 +12,9 @@ import FirebaseAuth
 import FirebaseDatabase
 
 class ContactsViewController: UITableViewController {
-
+    
+    @IBOutlet var noContactsView: UIView!
+    
     let searchController = UISearchController(searchResultsController: nil)
     
     // Declare array to load in all userscores.
@@ -27,11 +29,15 @@ class ContactsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if contacts.count == 0 {
+            self.tableView.backgroundView = self.noContactsView
+        }
+        
         // Setup the Search Controller
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.tintColor = UIColor.white
-        searchController.searchBar.placeholder = "Search Constacts"
+        searchController.searchBar.placeholder = "Search Contacts"
         navigationItem.searchController = searchController
         definesPresentationContext = true
         
@@ -50,6 +56,9 @@ class ContactsViewController: UITableViewController {
             // Set new items to items array
             self.contacts = newContacts
             self.tableView.reloadData()
+            if self.contacts.count != 0 {
+                self.tableView.backgroundView = nil
+            }
         })
         
         tableView.allowsSelection = false

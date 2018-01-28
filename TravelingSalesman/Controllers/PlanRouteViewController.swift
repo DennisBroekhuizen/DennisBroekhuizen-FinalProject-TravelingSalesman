@@ -9,7 +9,7 @@
 import UIKit
 import GooglePlaces
 
-class PlanRouteViewController: UITableViewController, UITextFieldDelegate {
+class PlanRouteViewController: UITableViewController {
     
     // TableView variables.
     var sectionTitles: [String] = ["Route name", "Date", "Starting point", "Waypoint(s)", "End point"]
@@ -86,11 +86,12 @@ class PlanRouteViewController: UITableViewController, UITextFieldDelegate {
             
             return cell
         case 5:
-            let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+//            let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "startingPointCell", for: indexPath) as! StartingPointCell
             if endPoint != nil {
-                cell.textLabel?.text = endPoint
+                cell.startingPointLabel.text = endPoint
             } else {
-                cell.textLabel?.text = "Choose end point"
+                cell.startingPointLabel.text = "Choose end point"
             }
             
             return cell
@@ -120,14 +121,16 @@ class PlanRouteViewController: UITableViewController, UITextFieldDelegate {
             tableView.endUpdates()
         case [2,0]:
             sectionSelected = 2
-            performGooglePLacesAutocomplete()
-//            self.performSegue (withIdentifier: "showSearch", sender: self)
+//            performGooglePLacesAutocomplete()
+            self.performSegue (withIdentifier: "googlePlaces", sender: self)
         case [4,0]:
             sectionSelected = 4
-            performGooglePLacesAutocomplete()
+//            performGooglePLacesAutocomplete()
+            self.performSegue (withIdentifier: "googlePlaces", sender: self)
         case [5,0]:
             sectionSelected = 5
-            performGooglePLacesAutocomplete()
+//            performGooglePLacesAutocomplete()
+            self.performSegue (withIdentifier: "googlePlaces", sender: self)
         default: break
         }
     }
@@ -197,7 +200,28 @@ class PlanRouteViewController: UITableViewController, UITextFieldDelegate {
     }
     
     // Segue to send user back to PlanRouteViewController.
-    @IBAction func unwindToPlanRoute(segue: UIStoryboardSegue) {
+    @IBAction func unwindToPlanRoute(_ sender: UIStoryboardSegue) {
+        if sender.source is SearchViewController {
+            if let senderVC = sender.source as? SearchViewController {
+                guard let chosenAddress = senderVC.chosenAddress else { return }
+                if sectionSelected == 2 {
+                    startingPoint = chosenAddress
+                    tableView.reloadData()
+                }
+                if sectionSelected == 4 {
+                    waypoints.append(chosenAddress)
+                    waypointCoordinates.append(senderVC.addressCoordinates)
+                    let indexPath = IndexPath(row: waypoints.count - 1, section: 3)
+                    tableView.beginUpdates()
+                    tableView.insertRows(at: [indexPath], with: .automatic)
+                    tableView.endUpdates()
+                }
+                if sectionSelected == 5 {
+                    endPoint = chosenAddress
+                    tableView.reloadData()
+                }
+            }
+        }
     }
     
 }
