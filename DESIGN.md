@@ -1,7 +1,7 @@
 # Dennis Broekhuizen Traveling Salesman App Design
 
 ## Advanced sketch
-![alt text](https://raw.githubusercontent.com/DennisBroekhuizen/DennisBroekhuizen-FinalProject-TravelingSalesman/master/AppDesign.png)
+![alt text](https://raw.githubusercontent.com/DennisBroekhuizen/DennisBroekhuizen-FinalProject-TravelingSalesman/master/Docs/AppDesign.png)
 
 ## Utility modules, classes and functions
 * Class loginViewController
