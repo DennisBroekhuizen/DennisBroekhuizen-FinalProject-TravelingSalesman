@@ -235,9 +235,9 @@
                         <viewLayoutGuide key="safeArea" id="idJ-Px-XaR"/>
                     </view>
                     <connections>
-                        <outlet property="emailTextField" destination="dQP-nr-J5p" id="8C5-Qe-IQ4"/>
-                        <outlet property="errorLabel" destination="zqe-cw-X2d" id="jgL-HR-ceF"/>
-                        <outlet property="passwordTextField" destination="hS5-zN-Pmu" id="7px-Rh-DtZ"/>
+                        <outlet property="registerEmailTextField" destination="dQP-nr-J5p" id="ZlF-Wc-vqb"/>
+                        <outlet property="registerErrorLabel" destination="zqe-cw-X2d" id="Tri-5j-apW"/>
+                        <outlet property="registerPasswordTextField" destination="hS5-zN-Pmu" id="RlY-15-vtu"/>
                         <segue destination="5hv-bQ-mIN" kind="presentation" identifier="registerSegue" id="iMZ-Qy-LjJ"/>
                     </connections>
                 </viewController>

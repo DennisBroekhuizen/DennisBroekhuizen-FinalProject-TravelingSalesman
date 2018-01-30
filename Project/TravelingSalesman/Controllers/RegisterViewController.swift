@@ -12,9 +12,9 @@ import FirebaseAuth
 
 class RegisterViewController: UIViewController {
     
-    @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var registerEmailTextField: UITextField!
+    @IBOutlet weak var registerPasswordTextField: UITextField!
+    @IBOutlet weak var registerErrorLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,12 +29,12 @@ class RegisterViewController: UIViewController {
     
     @IBAction func createAccountTapped(_ sender: Any) {
         // Check if textfields are filled in.
-        if let email = emailTextField.text, let password = passwordTextField.text {
+        if let email = registerEmailTextField.text, let password = registerPasswordTextField.text {
             Auth.auth().createUser(withEmail: email, password: password, completion: { user, error in
                 // Check if there might be an error from firebase.
                 if let firebaseError = error {
                     print(firebaseError.localizedDescription)
-                    self.errorLabel.text = firebaseError.localizedDescription
+                    self.registerErrorLabel.text = firebaseError.localizedDescription
                     return
                 }
                 
@@ -42,9 +42,9 @@ class RegisterViewController: UIViewController {
                 self.performSegue(withIdentifier: "registerSegue", sender: nil)
                 
                 // Clear inputfields and labels after logging in successfully.
-                self.errorLabel.text = ""
-                self.emailTextField.text = ""
-                self.passwordTextField.text = ""
+                self.registerErrorLabel.text = ""
+                self.registerEmailTextField.text = ""
+                self.registerPasswordTextField.text = ""
                 print("Successfully created an account!")
             })
         }

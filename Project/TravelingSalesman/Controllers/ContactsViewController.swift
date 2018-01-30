@@ -31,26 +31,29 @@ class ContactsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Show loading view as long as the contacts aren't loaded.
+        showLoadingView()
+        setupSearchController()
+        getContactsFromFirebase()
+        
+        // Disable table view selection.
+        tableView.allowsSelection = false
+    }
+    
+    func showLoadingView() {
         if contacts.count == 0 {
             tableView.backgroundView = loadingContactsView
             // Remove row seperator line for tablerows.
             tableView.tableFooterView = UIView(frame: CGRect.zero)
         }
-        
-        // Setup the Search Controller
+    }
+    
+    func setupSearchController() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.tintColor = UIColor.white
         searchController.searchBar.placeholder = "Search Contacts"
         navigationItem.searchController = searchController
         definesPresentationContext = true
-        
-        // Retrieve contacts from Firebase.
-        getContactsFromFirebase()
-        
-        // Disable table view selection.
-        tableView.allowsSelection = false
     }
     
     func getContactsFromFirebase() {
@@ -58,27 +61,30 @@ class ContactsViewController: UITableViewController {
         currentUser.observe(.value, with: { snapshot in
             // Create array for new items in database.
             var newContacts: [Contact] = []
-            
+
             for item in snapshot.children {
                 // Declare and append elements from database to array
                 let contact = Contact(snapshot: item as! DataSnapshot)
                 newContacts.append(contact)
             }
-            
+
             // Set new contacts to contacts array.
             self.contacts = newContacts
             self.tableView.reloadData()
-            
-            // Show no contacts view if users haven't stored contacts in firebase.
-            if self.contacts.count == 0 {
-                self.tableView.backgroundView = self.noContactsView
-                self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-            } else {
-                // Clear background view if contacts are loaded.
-                self.tableView.backgroundView = nil
-                self.tableView.tableFooterView = nil
-            }
+            self.updateTableViewBackground()
         })
+    }
+    
+    func updateTableViewBackground() {
+        // Show no contacts view if users haven't stored contacts in firebase.
+        if self.contacts.count == 0 {
+            self.tableView.backgroundView = self.noContactsView
+            self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        } else {
+            // Clear background view if contacts are loaded.
+            self.tableView.backgroundView = nil
+            self.tableView.tableFooterView = nil
+        }
     }
     
     // MARK: - Table view data source
