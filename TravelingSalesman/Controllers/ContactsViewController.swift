@@ -47,6 +47,13 @@ class ContactsViewController: UITableViewController {
         definesPresentationContext = true
         
         // Retrieve contacts from Firebase.
+        getContactsFromFirebase()
+        
+        // Disable table view selection.
+        tableView.allowsSelection = false
+    }
+    
+    func getContactsFromFirebase() {
         let currentUser = ref.child(self.userID!).child("contacts")
         currentUser.observe(.value, with: { snapshot in
             // Create array for new items in database.
@@ -72,9 +79,6 @@ class ContactsViewController: UITableViewController {
                 self.tableView.tableFooterView = nil
             }
         })
-        
-        // Disable table view selection.
-        tableView.allowsSelection = false
     }
     
     // MARK: - Table view data source

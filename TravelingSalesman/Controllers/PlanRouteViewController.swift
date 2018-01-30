@@ -162,6 +162,18 @@ class PlanRouteViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    func clearVariables() {
+        let indexpathForRouteName = IndexPath(row: 0, section: 0)
+        let routeNameCell = tableView.dequeueReusableCell(withIdentifier: "routeNameCell", for: indexpathForRouteName) as! RouteNameCell
+        routeNameCell.textField.text = ""
+        routeName = nil
+        date = nil
+        startingPoint = nil
+        endPoint = nil
+        waypoints = []
+        waypointCoordinates = []
+    }
+    
     // Pass data to next OptimizeViewController to optimize route.
     override func prepare(for segue: UIStoryboardSegue, sender:
         Any?) {
@@ -194,16 +206,14 @@ class PlanRouteViewController: UITableViewController {
                 if sectionSelected == 2 {
                     startingPoint = chosenAddress
                     tableView.reloadData()
-                }
-                if sectionSelected == 4 {
+                } else if sectionSelected == 4 {
                     waypoints.append(chosenAddress)
                     waypointCoordinates.append(senderVC.addressCoordinates)
                     let indexPath = IndexPath(row: waypoints.count - 1, section: 3)
                     tableView.beginUpdates()
                     tableView.insertRows(at: [indexPath], with: .automatic)
                     tableView.endUpdates()
-                }
-                if sectionSelected == 5 {
+                } else if sectionSelected == 5 {
                     endPoint = chosenAddress
                     tableView.reloadData()
                 }
@@ -212,15 +222,7 @@ class PlanRouteViewController: UITableViewController {
         
         // Clear previous userinput if user saves a route.
         if sender.source is OptimizeRouteViewController {
-            let indexpathForRouteName = IndexPath(row: 0, section: 0)
-            let routeNameCell = tableView.dequeueReusableCell(withIdentifier: "routeNameCell", for: indexpathForRouteName) as! RouteNameCell
-            routeNameCell.textField.text = ""
-            routeName = nil
-            date = nil
-            startingPoint = nil
-            endPoint = nil
-            waypoints = []
-            waypointCoordinates = []
+            clearVariables()
             tableView.reloadData()
         }
     }
