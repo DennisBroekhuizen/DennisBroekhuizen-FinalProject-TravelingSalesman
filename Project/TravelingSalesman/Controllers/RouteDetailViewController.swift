@@ -14,7 +14,6 @@ import CoreLocation
 class RouteDetailViewController: UITableViewController {
     
     var chosenRoute: Route!
-    let coor: [CLLocation] = [CLLocation(latitude: 52.37021570, longitude: 4.89516790), CLLocation(latitude: 53.16416420, longitude: +5.78175420), CLLocation(latitude: +51.50464550,longitude: +3.89113040)]
     var distinationsCoordinates: [CLLocation] = []
     
     let userID = Auth.auth().currentUser?.uid

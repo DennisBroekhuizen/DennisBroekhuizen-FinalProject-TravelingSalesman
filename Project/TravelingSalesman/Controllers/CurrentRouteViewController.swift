@@ -60,7 +60,6 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
                 self.desCoordinates = self.coordinatesToCLLocation(coordinates: coordinates)
             }
             if CLLocationManager.locationServicesEnabled() {
-//                self.setUpGeofenceForPlayaGrandeBeach()
                 self.locationManager.startUpdatingLocation()
             }
             self.tableView.reloadData()
@@ -81,24 +80,6 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
         }
         return convertedCoordinates
     }
-    
-//    func setUpGeofenceForPlayaGrandeBeach() {
-//        print("hallo setting geofence")
-//        print(desCoordinates)
-//        for destination in desCoordinates {
-//            print("in de for loop")
-////            let geofenceRegionCenter = CLLocationCoordinate2DMake(destination.);
-//            let geofenceRegion = CLCircularRegion(center: destination.coordinate, radius: 400, identifier: "Destination");
-//            geofenceRegion.notifyOnExit = false;
-//            geofenceRegion.notifyOnEntry = true;
-//            self.locationManager.startMonitoring(for: geofenceRegion)
-//        }
-//    }
-    
-//    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-//        print("Welcome to Playa Grande! If the waves are good, you can try surfing!")
-//        //Good place to schedule a local notification
-//    }
     
     // MARK: - Table view data source
 
