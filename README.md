@@ -7,7 +7,7 @@ The traveling salesman problem is a problem that hasn't been solved in the mobil
 The solution to the described problem is a clear app that let's a user input the addresses they want to visit, choose a starting point and show them the most efficient order of addresses to visit.
 
 ### Visual sketch
-![alt text](https://raw.githubusercontent.com/DennisBroekhuizen/DennisBroekhuizen-FinalProject-TravelingSalesman/master/TravelingSalesmanApp.png)
+![alt text](https://raw.githubusercontent.com/DennisBroekhuizen/DennisBroekhuizen-FinalProject-TravelingSalesman/master/Docs/TravelingSalesmanApp.png)
 
 ### Main features
 The user must be able to:
