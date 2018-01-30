@@ -7,11 +7,8 @@ target 'TravelingSalesman' do
 
   # Pods for TravelingSalesman
   pod 'GooglePlaces'
-  pod 'GooglePlacePicker'
-  pod 'GoogleMaps'
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
-  pod 'FSCalendar'
 
 end
