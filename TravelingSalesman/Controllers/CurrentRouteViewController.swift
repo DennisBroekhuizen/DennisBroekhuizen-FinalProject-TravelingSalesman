@@ -21,7 +21,7 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
     var myLocation: CLLocation?
 
     var currentRoute: [Route] = []
-    var sectionTitles: [String] = ["Name", "Starting point", "Destinations", "End point"]
+    var sectionTitles: [String] = ["Name", "Starting point", "Waypoint(s)", "End point"]
     var selectedAddress: String?
     var destinationsCoordinates: [CLLocation] = [CLLocation(latitude: 51.571915, longitude: 4.768323),CLLocation(latitude: 51.504646, longitude: 3.891130), CLLocation(latitude: 50.851368, longitude: 5.690973), CLLocation(latitude: 53.219383, longitude: 6.566502), CLLocation(latitude: 53.164164, longitude: 5.781754), CLLocation(latitude: 52.160114, longitude: 4.497010)]
     var desCoordinates: [CLLocation] = []
@@ -228,6 +228,20 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
         let address = selectedAddress?.replacingOccurrences(of: " ", with: "")
         UIApplication.shared.open(NSURL(string: "http://maps.apple.com/?address=\(address!)")! as URL, options: [:])
     }
+    
+    @IBAction func infoButtonTapped(_ sender: Any) {
+        let alert = UIAlertController(title: "Info",
+                                      message: "Checking your current location with given waypoint(s). Checkmarks will show if you did reach your waypoint(s).",
+                                      preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "Ok",
+                                         style: .default)
+    
+        alert.addAction(okAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
     
     func viewDidDisappear() {
         let indexPath = tableView.indexPathForSelectedRow!

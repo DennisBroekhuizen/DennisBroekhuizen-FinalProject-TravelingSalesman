@@ -5,11 +5,11 @@
 //  Created by Dennis Broekhuizen on 19-01-18.
 //  Copyright © 2018 Dennis Broekhuizen. All rights reserved.
 //
+//  Structure used to store and retrieve contacts from database.
 
 import Foundation
 import FirebaseDatabase
 
-// Used to store contacts from database.
 struct Contact {
     let name: String
     let address: String

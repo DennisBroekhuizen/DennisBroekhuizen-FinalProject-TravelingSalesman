@@ -5,7 +5,7 @@
 //  Created by Dennis Broekhuizen on 19-01-18.
 //  Copyright © 2018 Dennis Broekhuizen. All rights reserved.
 //
-//  Search from tutorial: https://www.raywenderlich.com/157864/uisearchcontroller-tutorial-getting-started
+//  SearchViewController to show a user their contacts. Let them create and delete contacts from and to firebase. Users are also able to search for contacts. Search tutorial from: https://www.raywenderlich.com/157864/uisearchcontroller-tutorial-getting-started
 
 import UIKit
 import FirebaseAuth
@@ -13,24 +13,29 @@ import FirebaseDatabase
 
 class ContactsViewController: UITableViewController {
     
+    // Outlets to change backgroud of table view.
     @IBOutlet var noContactsView: UIView!
+    @IBOutlet var loadingContactsView: UIView!
     
-    let searchController = UISearchController(searchResultsController: nil)
-    
-    // Declare array to load in all userscores.
+    // Arrays to load in contacts and filtered contacts.
     var contacts: [Contact] = []
     var filteredContacts: [Contact] = []
     
-    // Refrence to leaderboard table in database.
-    let ref = Database.database().reference(withPath: "users")
+    // Declare searchcontroller.
+    let searchController = UISearchController(searchResultsController: nil)
     
+    // Reference to Firebase.
+    let ref = Database.database().reference(withPath: "users")
     let userID = Auth.auth().currentUser?.uid
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Show loading view as long as the contacts aren't loaded.
         if contacts.count == 0 {
-            self.tableView.backgroundView = self.noContactsView
+            tableView.backgroundView = loadingContactsView
+            // Remove row seperator line for tablerows.
+            tableView.tableFooterView = UIView(frame: CGRect.zero)
         }
         
         // Setup the Search Controller
@@ -41,8 +46,8 @@ class ContactsViewController: UITableViewController {
         navigationItem.searchController = searchController
         definesPresentationContext = true
         
+        // Retrieve contacts from Firebase.
         let currentUser = ref.child(self.userID!).child("contacts")
-
         currentUser.observe(.value, with: { snapshot in
             // Create array for new items in database.
             var newContacts: [Contact] = []
@@ -53,16 +58,23 @@ class ContactsViewController: UITableViewController {
                 newContacts.append(contact)
             }
             
-            // Set new items to items array
+            // Set new contacts to contacts array.
             self.contacts = newContacts
             self.tableView.reloadData()
-            if self.contacts.count != 0 {
+            
+            // Show no contacts view if users haven't stored contacts in firebase.
+            if self.contacts.count == 0 {
+                self.tableView.backgroundView = self.noContactsView
+                self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+            } else {
+                // Clear background view if contacts are loaded.
                 self.tableView.backgroundView = nil
+                self.tableView.tableFooterView = nil
             }
         })
         
+        // Disable table view selection.
         tableView.allowsSelection = false
-        
     }
     
     // MARK: - Table view data source
@@ -71,29 +83,34 @@ class ContactsViewController: UITableViewController {
         return 1
     }
 
+    // Return rows depending on users search input.
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
             return filteredContacts.count
+        } else {
+            return contacts.count
         }
-        return contacts.count
     }
     
+    // Declare cells in table view.
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Declare cell and items.
-        let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ContactCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath)
         let loadedContacts: Contact?
+        
+        // Return contacts depending on search filtering.
         if isFiltering(){
             loadedContacts = filteredContacts[indexPath.row]
         } else {
             loadedContacts = contacts[indexPath.row]
         }
         
-        // Set leaderboard items to cell elements.
-        cell.nameLabel.text = loadedContacts?.name
-        cell.addressLabel.text = loadedContacts?.address
+        // Set contacts to cell elements.
+        cell.textLabel?.text = loadedContacts?.name
+        cell.detailTextLabel?.text = loadedContacts?.address
         return cell
     }
     
+    // Allow user to delete contacts from table view and Firebase.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let contactItem = contacts[indexPath.row]
@@ -101,6 +118,7 @@ class ContactsViewController: UITableViewController {
         }
     }
     
+    // Return contacts depending on users searchterm and reload table view.
     func filterContentForSearchText(_ searchText: String) {
         filteredContacts = contacts.filter({( contact: Contact) -> Bool in
             if searchBarIsEmpty() {
@@ -112,32 +130,24 @@ class ContactsViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    // Check if searchbar is empty.
     func searchBarIsEmpty() -> Bool {
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
+    // Check for filtering.
     func isFiltering() -> Bool {
-        let searchBarScopeIsFiltering = searchController.searchBar.selectedScopeButtonIndex != 0
-        return searchController.isActive && (!searchBarIsEmpty() || searchBarScopeIsFiltering)
+        return searchController.isActive && !searchBarIsEmpty()
     }
     
     // Segue to send user back to contactscreen.
     @IBAction func unwindToContactsScreen(segue: UIStoryboardSegue) {
-    }
-    
-}
-
-extension ContactsViewController: UISearchBarDelegate {
-    // MARK: - UISearchBar Delegate
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        filterContentForSearchText(searchBar.text!)
     }
 }
 
 extension ContactsViewController: UISearchResultsUpdating {
     // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResults(for searchController: UISearchController) {
-//        let searchBar = searchController.searchBar
         filterContentForSearchText(searchController.searchBar.text!)
     }
 }

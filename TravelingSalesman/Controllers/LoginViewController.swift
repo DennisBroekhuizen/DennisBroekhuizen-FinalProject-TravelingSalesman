@@ -5,6 +5,7 @@
 //  Created by Dennis Broekhuizen on 08-01-18.
 //  Copyright © 2018 Dennis Broekhuizen. All rights reserved.
 //
+//  Handle user login. The user can also choose to register if they don't have an account yet. Users need to create an account to save contacts and routes.
 
 import UIKit
 import FirebaseAuth

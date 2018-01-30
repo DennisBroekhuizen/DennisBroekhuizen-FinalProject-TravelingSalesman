@@ -20,23 +20,25 @@ class RouteDetailViewController: UITableViewController {
     let userID = Auth.auth().currentUser?.uid
     let ref = Database.database().reference(withPath: "users")
 
-    var sectionTitles: [String] = ["Route name", "Date", "Starting point", "Destinations", "End point"]
-//    var destinations: [String] = ["Amsterdam", "Rotterdam"]
+    var sectionTitles: [String] = ["Date", "Starting point", "Waypoint(s)", "End point"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.title = "\(chosenRoute.name)"
 
         // Remove row seperator line for unfilled rows.
         tableView.tableFooterView = UIView(frame: CGRect.zero)
+        tableView.allowsSelection = false
     }
 
     // Declaration of sections and rows in tableView.
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        return 4
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 3 {
+        if section == 2 {
             return chosenRoute.destinations.count
         } else {
             return 1
@@ -45,22 +47,19 @@ class RouteDetailViewController: UITableViewController {
     
     // Declaration of tableView.
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "textElementCell", for: indexPath) as! TextElementCell
+        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
         switch (indexPath.section) {
         case 0:
-            cell.textElementLabel.text = chosenRoute.name
+            cell.textLabel?.text = chosenRoute.date
             return cell
         case 1:
-            cell.textElementLabel.text = chosenRoute.date
+            cell.textLabel?.text = chosenRoute.startingPoint
             return cell
         case 2:
-            cell.textElementLabel.text = chosenRoute.startingPoint
+            cell.textLabel?.text = chosenRoute.destinations[indexPath.row]
             return cell
         case 3:
-            cell.textElementLabel.text = chosenRoute.destinations[indexPath.row]
-            return cell
-        case 4:
-            cell.textElementLabel.text = chosenRoute.endPoint
+            cell.textLabel?.text = chosenRoute.endPoint
             return cell
         default: break
         }
@@ -69,7 +68,7 @@ class RouteDetailViewController: UITableViewController {
     
     // Declaration of section titles in tableView.
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section >= 0 && section <= 4 {
+        if section >= 0 && section <= 3 {
             return sectionTitles[section]
         } else {
             return nil
@@ -89,8 +88,6 @@ class RouteDetailViewController: UITableViewController {
                         let currentUser = self.ref.child(self.userID!)
                                         
                         let currentRoute = currentUser.child("routes").child("currentRoute")
-//                                        currentUser.child("coor").setValue(self.coor)
-//                                        currentRoute.child("date").setValue(self.chosenRoute.date)
                                         
                         let post = ["name": self.chosenRoute.name,
                                     "startingPoint": self.chosenRoute.startingPoint,

@@ -5,6 +5,7 @@
 //  Created by Dennis Broekhuizen on 11-01-18.
 //  Copyright © 2018 Dennis Broekhuizen. All rights reserved.
 //
+//  Handle registartion of new users and save this user to firebase.
 
 import UIKit
 import FirebaseAuth
@@ -50,5 +51,4 @@ class RegisterViewController: UIViewController {
         // Dismiss keyboard when the button is tapped.
         self.view.endEditing(true)
     }
-    
 }

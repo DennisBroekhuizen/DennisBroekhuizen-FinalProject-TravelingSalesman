@@ -1,10 +1,13 @@
 //
-//  PlannerViewController.swift
+//  OptimizeRouteViewController.swift
 //  TravelingSalesman
 //
 //  Created by Dennis Broekhuizen on 11-01-18.
 //  Copyright © 2018 Dennis Broekhuizen. All rights reserved.
 //
+//  ViewController to optimize a route with the Google Directions API. This will solve the traveling salesman problem for the user. Users can store their route to Firebase.
+//
+//  Alert with delay if used to show the user a succes message: https://stackoverflow.com/questions/27613926/dismiss-uialertview-after-5-seconds-swift
 
 import UIKit
 import FirebaseAuth
@@ -69,6 +72,7 @@ class OptimizeRouteViewController: UITableViewController {
         
         // Remove row seperator line for unfilled rows.
         tableView.tableFooterView = UIView(frame: CGRect.zero)
+        tableView.allowsSelection = false
     }
     
     // Declaration of sections and rows in tableView.
@@ -86,22 +90,22 @@ class OptimizeRouteViewController: UITableViewController {
     
     // Declaration of tableView.
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! TextLabelCell
+        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
         switch (indexPath.section) {
         case 0:
-            cell.labelText.text = optimizedRoute.name
+            cell.textLabel?.text = optimizedRoute.name
             return cell
         case 1:
-            cell.labelText.text = optimizedRoute.date
+            cell.textLabel?.text = optimizedRoute.date
             return cell
         case 2:
-            cell.labelText.text = optimizedRoute.startingPoint
+            cell.textLabel?.text = optimizedRoute.startingPoint
             return cell
         case 3:
-            cell.labelText.text = optimizedRoute.destinations[indexPath.row]
+            cell.textLabel?.text = optimizedRoute.destinations[indexPath.row]
             return cell
         case 4:
-            cell.labelText.text = optimizedRoute.endPoint
+            cell.textLabel?.text = optimizedRoute.endPoint
             return cell
         default: break
         }
@@ -127,12 +131,23 @@ class OptimizeRouteViewController: UITableViewController {
     }
     
     func errorOptimize() {
-        let alert = UIAlertController(title: "Oops", message: "Your route can't be optimized.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Oops", message: "This route can't be optimized. Make sure you did choose locations that can be travelled by car from each other. ", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "Ok", style: .default)
         
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
+    }
+    
+    func succesMessage() {
+        let alert = UIAlertController(title: "", message: "Successfully saved your route!", preferredStyle: .alert)
+        self.present(alert, animated: true, completion: nil)
+        
+        let when = DispatchTime.now() + 3
+        DispatchQueue.main.asyncAfter(deadline: when){
+            alert.dismiss(animated: true, completion: nil)
+            self.performSegue(withIdentifier: "completionSegue", sender: nil)
+        }
     }
     
     @IBAction func saveButtonDidTouch(_ sender: Any) {
@@ -156,7 +171,7 @@ class OptimizeRouteViewController: UITableViewController {
                                      "endPoint": optimizedRoute.endPoint] as [String : Any]
             
                          newRoute.setValue(post)
-//                                    self.performSegue(withIdentifier: "showTravel", sender: nil)
+                         self.succesMessage()
         }
         
         alert.addAction(cancelAction)

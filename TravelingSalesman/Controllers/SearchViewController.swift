@@ -5,27 +5,27 @@
 //  Created by Dennis Broekhuizen on 22-01-18.
 //  Copyright © 2018 Dennis Broekhuizen. All rights reserved.
 //
-//  Inspired by: https://github.com/gm6379/MapKitAutocomplete
-//  https://www.raywenderlich.com/157864/uisearchcontroller-tutorial-getting-started
+//  SearchViewController to let a user choose locations when planning a route. Locations can be selected from saved contacts in Firebase or the Google Places API. Contacts search tutorial from: https://www.raywenderlich.com/157864/uisearchcontroller-tutorial-getting-started
 
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 import GooglePlaces
 
-
 class SearchViewController: UIViewController {
-    
-    var searchController = UISearchController(searchResultsController: nil)
 
     // Declare array to load in all (filtered) contacts.
     var contacts: [Contact] = []
     var filteredContacts: [Contact] = []
     
+    // Declare search controller.
+    var searchController = UISearchController(searchResultsController: nil)
+    
+    // Variables to save addresses and coordinates.
     var chosenAddress: String!
     var addressCoordinates: String!
     
-    // Refrence to leaderboard table in database.
+    // Reference to Firebase.
     let ref = Database.database().reference(withPath: "users")
     let userID = Auth.auth().currentUser?.uid
     
@@ -41,25 +41,26 @@ class SearchViewController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.tintColor = UIColor.white
         searchController.searchBar.placeholder = "Search Contacts"
+        searchController.searchBar.showsCancelButton = true
+        definesPresentationContext = true
+        
         // Put the search bar in the navigation bar.
         searchController.searchBar.sizeToFit()
         navigationItem.titleView = searchController.searchBar
         
-        definesPresentationContext = true
-        
         // Prevent the navigation bar from being hidden when searching.
         searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.showsCancelButton = true
         searchController.searchBar.delegate = self
         
         // Hide bottom border of navigation bar.
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationController?.navigationBar.shadowImage = UIImage()
         
+        // Retrieve contacts from Firebase.
         let currentUser = ref.child(self.userID!).child("contacts")
         
         currentUser.observe(.value, with: { snapshot in
-            // Create array for new items in database.
+            // Create array for new contacts in database.
             var newContacts: [Contact] = []
             
             for item in snapshot.children {
@@ -68,12 +69,13 @@ class SearchViewController: UIViewController {
                 newContacts.append(contact)
             }
             
-            // Set new items to items array
+            // Set new contacts to contacts array
             self.contacts = newContacts
             self.tableView.reloadData()
         })
     }
     
+    // Return contacts depending on users searchterm and reload table view.
     func filterContentForSearchText(_ searchText: String) {
         filteredContacts = contacts.filter({( contact: Contact) -> Bool in
             if searchBarIsEmpty() {
@@ -85,16 +87,17 @@ class SearchViewController: UIViewController {
         tableView.reloadData()
     }
     
+    // Check if searchbar is empty.
     func searchBarIsEmpty() -> Bool {
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
+    // Check for filtering.
     func isFiltering() -> Bool {
-        let searchBarScopeIsFiltering = searchController.searchBar.selectedScopeButtonIndex != 0
-        return searchController.isActive && (!searchBarIsEmpty() || searchBarScopeIsFiltering)
+        return searchController.isActive && !searchBarIsEmpty()
     }
     
-    
+    // Call Google Places API when segmented index changed.
     @IBAction func segmentedIndexChanged(_ sender: Any) {
         if segmentedControl.selectedSegmentIndex == 1 {
             let autocompleteController = GMSAutocompleteViewController()
@@ -106,30 +109,27 @@ class SearchViewController: UIViewController {
 }
 
 extension SearchViewController: UISearchBarDelegate {
-    // MARK: - UISearchBar Delegate
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        filterContentForSearchText(searchBar.text!)
-    }
+    // Dismiss table view when cancel button is clicked.
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         dismiss(animated: true, completion: nil)
-//        performSegue(withIdentifier: "unwindToPlanRoute", sender: nil)
     }
 }
 
 extension SearchViewController: UISearchResultsUpdating {
     // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResults(for searchController: UISearchController) {
-        //        let searchBar = searchController.searchBar
             filterContentForSearchText(searchController.searchBar.text!)
     }
 }
 
+// MARK: - Table view data source.
 extension SearchViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
+    // Return rows depending on users search input.
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
             return filteredContacts.count
@@ -137,23 +137,26 @@ extension SearchViewController: UITableViewDataSource {
         return contacts.count
     }
     
+    // Declare cells in table view.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Declare cell and items.
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         let loadedContacts: Contact?
+        
+        // Return contacts depending on search filtering.
         if isFiltering(){
             loadedContacts = filteredContacts[indexPath.row]
         } else {
             loadedContacts = contacts[indexPath.row]
         }
         
-        // Set leaderboard items to cell elements.
+        // Set contacts to cell elements.
         cell.textLabel?.text = loadedContacts?.name
         cell.detailTextLabel?.text = loadedContacts?.address
         return cell
     }
 }
 
+// Handle selection of contact and pefrom segue back to PlanRouteViewController with chosen address.
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -168,11 +171,13 @@ extension SearchViewController: UITableViewDelegate {
     }
 }
 
+// Google Places API.
 extension SearchViewController: GMSAutocompleteViewControllerDelegate {
     
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        print("Place name: \(place.name)")
+        
+        // Declare chosen address and perfrom segue back to PlanRouteViewController with chosen address.
         chosenAddress = place.formattedAddress!
         addressCoordinates = "\(place.coordinate.latitude),\(place.coordinate.longitude)"
         dismiss(animated: false, completion: nil)

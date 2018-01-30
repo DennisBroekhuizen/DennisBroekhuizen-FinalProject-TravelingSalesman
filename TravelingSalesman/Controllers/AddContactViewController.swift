@@ -5,6 +5,7 @@
 //  Created by Dennis Broekhuizen on 19-01-18.
 //  Copyright © 2018 Dennis Broekhuizen. All rights reserved.
 //
+//  ViewController to let a user create and save contacts to Firebase.
 
 import UIKit
 import FirebaseAuth
@@ -13,24 +14,30 @@ import GooglePlaces
 
 class AddContactViewController: UITableViewController {
     
+    // Oulets of labels and button in view.
     @IBOutlet weak var contactName: UITextField!
     @IBOutlet weak var contactAddress: UILabel!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    
+    // Variable to save coordinates of a chosen address from a contact.
     var contactCoordinates: String!
     
+    // Firebase reference.
     let userID = Auth.auth().currentUser?.uid
     let ref = Database.database().reference(withPath: "users")
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Disable save button untill a user has filled in all fields.
         saveButton.isEnabled = false
-
         contactName.addTarget(self, action: #selector(editingChanged), for: .editingChanged)
         
         // Remove row seperator line for unfilled rows.
         tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
 
+    // Check if all fields are filled in correctly.
     @objc func editingChanged(_ textField: UITextField, textLabel: UILabel) {
         if textField.text?.count == 1 {
             if textField.text?.first == " " {
@@ -52,11 +59,7 @@ class AddContactViewController: UITableViewController {
         saveButton.isEnabled = true
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+    // Call Google Places API when selecting correct section row.
     override func tableView(_ tableView: UITableView, didSelectRowAt
         indexPath: IndexPath) {
         switch (indexPath) {
@@ -68,13 +71,13 @@ class AddContactViewController: UITableViewController {
         }
     }
     
+    // Ask the user to save a contact and store the contact to Firebase if they choose 'yes'.
     @IBAction func saveContactDidTouch(_ sender: Any) {
         let alert = UIAlertController(title: "Save",
                                       message: "Are you sure you want to save this contact?",
                                       preferredStyle: .alert)
         
-        let cancelAction = UIAlertAction(title: "Cancel",
-                                         style: .default)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default)
         let saveAction = UIAlertAction(title: "Yes",
                                        style: .default) { _ in
                                         
@@ -103,10 +106,8 @@ extension AddContactViewController: GMSAutocompleteViewControllerDelegate {
     
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        print("Place name: \(place.name)")
-        print("Place address: \(String(describing: place.formattedAddress))")
-        print("Place attributions: \(String(describing: place.attributions))")
         
+        // Enable savebutton if contact name isn't empty.
         if contactName.text != "" {
             saveButton.isEnabled = true
         }

@@ -13,7 +13,6 @@ import FirebaseDatabase
 class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var noDateView: UIView!
-    
     @IBOutlet var loadingView: UIView!
     
     @IBOutlet weak var tableView: UITableView!
@@ -29,7 +28,9 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
         super.viewDidLoad()
         
         if routes.count == 0 {
-            self.tableView.backgroundView = self.loadingView
+            tableView.backgroundView = loadingView
+            // Remove row seperator line for tablerows.
+            tableView.tableFooterView = UIView(frame: CGRect.zero)
         }
         
         let routesRef = ref.child(self.userID!).child("routes")
@@ -49,14 +50,12 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.tableView.reloadData()
             if self.routes.count == 0 {
                 self.tableView.backgroundView = self.noDateView
+                self.tableView.tableFooterView = UIView(frame: CGRect.zero)
             } else {
                 self.tableView.backgroundView = nil
+                self.tableView.tableFooterView = nil
             }
-//            self.tableView.backgroundView = nil
         })
-        
-        // Remove row seperator line for unfilled rows.
-        tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     override func didReceiveMemoryWarning() {
@@ -66,7 +65,6 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if routes.count == 0 {
-//            self.tableView.backgroundView = self.noDateView
             return 0
         } else if routes.count == 1 {
             return 1
@@ -76,24 +74,24 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "routeCell", for: indexPath) as! RouteCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "routeCell", for: indexPath)
         
         let loadedRoutes = routes[indexPath.row]
-        cell.routeLabel.text = loadedRoutes.name
+        cell.textLabel?.text = loadedRoutes.name
+        cell.detailTextLabel?.text = loadedRoutes.date
         
         return cell
-    }
-
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return sectionTitles[section]
-        } else {
-            return nil
-        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let selectedRoute = routes[indexPath.row]
+            selectedRoute.ref?.removeValue()
+        }
     }
     
     // Pass data to next viewController.
