@@ -1,5 +1,7 @@
 # Dennis Broekhuizen Traveling Salesman App
 
+[![BCH compliance](https://bettercodehub.com/edge/badge/DennisBroekhuizen/DennisBroekhuizen-FinalProject-TravelingSalesman?branch=master)](https://bettercodehub.com/)
+
 ## Problem statement
 The traveling salesman problem is a problem that hasn't been solved in the mobile world, in a good way yet, in my opinion. People who travel a lot and need to visit more then two addresses a day, have to plan their route in an efficient way. The more addresses you add, the more complex the problem becomes. So when someone has to visit 10 addresses a day, it comes in use to let a computer solve their problem and returns the most efficient route. Also people who are planning a roadtrip and would like to visit a certain amount of places, have the same problem to solve.
 
