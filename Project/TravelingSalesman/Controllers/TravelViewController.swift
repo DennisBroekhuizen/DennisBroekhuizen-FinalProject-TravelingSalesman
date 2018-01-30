@@ -27,12 +27,19 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        showLoadingView()
+        getRoutesFromFirebase()
+    }
+    
+    func showLoadingView() {
         if routes.count == 0 {
             tableView.backgroundView = loadingView
             // Remove row seperator line for tablerows.
             tableView.tableFooterView = UIView(frame: CGRect.zero)
         }
-        
+    }
+    
+    func getRoutesFromFirebase() {
         let routesRef = ref.child(self.userID!).child("routes")
         
         routesRef.observe(.value, with: { snapshot in
@@ -48,20 +55,21 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
             // Set new items to items array
             self.routes = newRoutes
             self.tableView.reloadData()
-            if self.routes.count == 0 {
-                self.tableView.backgroundView = self.noDateView
-                self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-            } else {
-                self.tableView.backgroundView = nil
-                self.tableView.tableFooterView = nil
-            }
+            self.updateTableViewBackground()
         })
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func updateTableViewBackground() {
+        if self.routes.count == 0 {
+            self.tableView.backgroundView = self.noDateView
+            self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        } else {
+            self.tableView.backgroundView = nil
+            self.tableView.tableFooterView = nil
+        }
     }
+    
+    // MARK: - Table view setup.
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if routes.count == 0 {

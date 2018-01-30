@@ -36,7 +36,15 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Setup the Search Controller
+        setupSearchController()
+        getContactsFromFirebase()
+        
+        // Hide bottom border of navigation bar.
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    
+    func setupSearchController() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.tintColor = UIColor.white
@@ -51,11 +59,9 @@ class SearchViewController: UIViewController {
         // Prevent the navigation bar from being hidden when searching.
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.delegate = self
-        
-        // Hide bottom border of navigation bar.
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        
+    }
+    
+    func getContactsFromFirebase() {
         // Retrieve contacts from Firebase.
         let currentUser = ref.child(self.userID!).child("contacts")
         
@@ -74,6 +80,8 @@ class SearchViewController: UIViewController {
             self.tableView.reloadData()
         })
     }
+    
+    // MARK: - Search controller functions.
     
     // Return contacts depending on users searchterm and reload table view.
     func filterContentForSearchText(_ searchText: String) {
@@ -116,7 +124,7 @@ extension SearchViewController: UISearchBarDelegate {
 }
 
 extension SearchViewController: UISearchResultsUpdating {
-    // MARK: - UISearchResultsUpdating Delegate
+    // MARK: - UISearchResultsUpdating Delegate.
     func updateSearchResults(for searchController: UISearchController) {
             filterContentForSearchText(searchController.searchBar.text!)
     }
@@ -171,7 +179,7 @@ extension SearchViewController: UITableViewDelegate {
     }
 }
 
-// Google Places API.
+// MARK: - Google Places API.
 extension SearchViewController: GMSAutocompleteViewControllerDelegate {
     
     // Handle the user's selection.

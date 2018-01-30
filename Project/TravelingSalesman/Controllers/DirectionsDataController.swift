@@ -15,19 +15,19 @@ class DirectionsDataController {
         // Create URL with all locations from user input.
         var tempUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=\(startingPoint)&destination=\(endPoint)"
         
-        // Add waypoint(s).
+        // Add waypoint(s) to URL.
         tempUrl += "&waypoints=optimize:true%7c"
         for destination in destinations {
             tempUrl += destination + "%7c"
         }
         
-        // Add API key.
+        // Add API key to URL.
         tempUrl += "&key=AIzaSyDX7yfEqlktigCmvfMG6RgLEOqGXYLULwg"
         
-        // Remove whitespace and convert string to url.
+        // Remove whitespace and convert string to URL.
         let finalUrl = tempUrl.removingWhitespaces()
         let url = URL(string: finalUrl)!
-        print(url)
+
         // Perform API request.
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             let jsonDecoder = JSONDecoder()
