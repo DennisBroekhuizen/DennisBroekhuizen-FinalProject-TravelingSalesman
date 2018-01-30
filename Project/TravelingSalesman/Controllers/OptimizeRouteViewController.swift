@@ -7,12 +7,11 @@
 //
 //  ViewController to optimize a route with the Google Directions API. This will solve the traveling salesman problem for the user. Users can store their route to Firebase.
 //
-//  Alert with delay if used to show the user a succes message: https://stackoverflow.com/questions/27613926/dismiss-uialertview-after-5-seconds-swift
+//  Created an alert with delay when the user succesfully save their route. Code from: https://stackoverflow.com/questions/27613926/dismiss-uialertview-after-5-seconds-swift
 
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
-import CoreLocation
 
 class OptimizeRouteViewController: UITableViewController {
     
@@ -21,7 +20,6 @@ class OptimizeRouteViewController: UITableViewController {
     
     // Route variables.
     var optimizedRoute: Route!
-    var optimizedIndex: [Int] = []
     var optimizedDestinations: [String] = []
     var optimizedCoordinates: [String] = []
     
@@ -38,32 +36,39 @@ class OptimizeRouteViewController: UITableViewController {
         // Disable save button until API is finised loading.
         saveButton.isEnabled = false
         
+        let numberOfDestinations = optimizedRoute.destinations.count - 1
+        
+        // Temporary fill arrays so elements can be replaced with optimized index order from API.
+        for i in 0 ... numberOfDestinations {
+            self.optimizedDestinations.append(String(i))
+            self.optimizedCoordinates.append(String(i))
+        }
+        
+        // Google Directions API request.
         directionsDataController.fetchDirections(startingPoint: optimizedRoute.startingPoint, destinations: optimizedRoute.destinations, endPoint: optimizedRoute.endPoint) { (directions) in
             if let directions = directions {
                 DispatchQueue.main.async {
                     
+                    // Return if status of API isn't 'OK'.
                     if directions.status! != "OK" {
                         self.errorOptimize()
                         return
                     }
                     
-                    // Retrieve optim
-                    self.optimizedIndex = directions.routes![0].waypoint_order!
-                    let lenDestinations = self.optimizedRoute.destinations.count - 1
+                    // Retrieve optimized waypoint order from API.
+                    let optimizedIndex = directions.routes![0].waypoint_order!
                     
-                    // Temp fill array
-                    for i in 0 ... lenDestinations {
-                        self.optimizedDestinations.append(String(i))
-                        self.optimizedCoordinates.append(String(i))
+                    // Replace temporary placeholders of arrays with real route data in optimized order.
+                    for destination in 0 ... numberOfDestinations {
+                        self.optimizedDestinations[destination] = self.optimizedRoute.destinations[optimizedIndex[destination]]
+                        self.optimizedCoordinates[destination] = self.optimizedRoute.destinationsCoordinates[optimizedIndex[destination]]
                     }
                     
-                    for destination in 0 ... lenDestinations {
-                        self.optimizedDestinations[destination] = self.optimizedRoute.destinations[self.optimizedIndex[destination]]
-                        self.optimizedCoordinates[destination] = self.optimizedRoute.destinationsCoordinates[self.optimizedIndex[destination]]
-                    }
-                    
+                    // Update route with optimized waypoints order.
                     self.optimizedRoute.destinations = self.optimizedDestinations
                     self.optimizedRoute.destinationsCoordinates = self.optimizedCoordinates
+                    
+                    // Show optimized order in table view and allow user to save route.
                     self.tableView.reloadData()
                     self.saveButton.isEnabled = true
                 }
@@ -131,7 +136,7 @@ class OptimizeRouteViewController: UITableViewController {
     }
     
     func errorOptimize() {
-        let alert = UIAlertController(title: "Oops", message: "This route can't be optimized. Make sure you did choose locations that can be travelled by car from each other. ", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Oops", message: "This route can't be optimized. Make sure you did choose locations that can be travelled by car from each other.", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "Ok", style: .default)
         
@@ -150,6 +155,24 @@ class OptimizeRouteViewController: UITableViewController {
         }
     }
     
+    func saveRouteToFirebase() {
+        guard let optimizedRoute = self.optimizedRoute
+            else { self.errorMessage(); return }
+        
+        let currentUser = self.ref.child(self.userID!)
+        
+        let newRoute = currentUser.child("routes").child(optimizedRoute.date)
+        
+        let post = ["name": optimizedRoute.name,
+                    "startingPoint": optimizedRoute.startingPoint,
+                    "destinations": optimizedRoute.destinations,
+                    "destinationsCoordinates": optimizedRoute.destinationsCoordinates,
+                    "endPoint": optimizedRoute.endPoint] as [String : Any]
+        
+        newRoute.setValue(post)
+    }
+    
+    // Save route to Firebase if user chooses 'yes'.
     @IBAction func saveButtonDidTouch(_ sender: Any) {
         let alert = UIAlertController(title: "Save", message: "Are you sure you want to save this route?",
                                       preferredStyle: .alert)
@@ -157,20 +180,7 @@ class OptimizeRouteViewController: UITableViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .default)
         
         let saveAction = UIAlertAction(title: "Yes", style: .default) { _ in
-                         guard let optimizedRoute = self.optimizedRoute
-                               else { self.errorMessage(); return }
-            
-                         let currentUser = self.ref.child(self.userID!)
-                                        
-                         let newRoute = currentUser.child("routes").child(optimizedRoute.date)
-                                        
-                         let post = ["name": optimizedRoute.name,
-                                     "startingPoint": optimizedRoute.startingPoint,
-                                     "destinations": optimizedRoute.destinations,
-                                     "destinationsCoordinates": optimizedRoute.destinationsCoordinates,
-                                     "endPoint": optimizedRoute.endPoint] as [String : Any]
-            
-                         newRoute.setValue(post)
+                         self.saveRouteToFirebase()
                          self.succesMessage()
         }
         

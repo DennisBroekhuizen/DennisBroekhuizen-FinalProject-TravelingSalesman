@@ -67,7 +67,8 @@ class PlanRouteViewController: UITableViewController {
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "dateCell", for: indexPath) as! DateCell
-            cell.dateLabel.text = Route.dateFormatter.string(for: cell.datePickerView.date)
+            cell.dateLabel.text = "Choose date"
+            
             cell.viewController = self
             return cell
         case 2:

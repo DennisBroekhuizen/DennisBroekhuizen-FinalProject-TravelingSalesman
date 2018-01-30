@@ -71,6 +71,17 @@ class AddContactViewController: UITableViewController {
         }
     }
     
+    func addContactToFirebase() {
+        let contacts = self.ref.child(self.userID!).child("contacts")
+        
+        let newContact = contacts.child(self.contactName.text!)
+        
+        let post = ["address": self.contactAddress.text!,
+                    "coordinates": self.contactCoordinates] as [String : Any]
+        
+        newContact.setValue(post)
+    }
+    
     // Ask the user to save a contact and store the contact to Firebase if they choose 'yes'.
     @IBAction func saveContactDidTouch(_ sender: Any) {
         let alert = UIAlertController(title: "Save",
@@ -81,15 +92,7 @@ class AddContactViewController: UITableViewController {
         let saveAction = UIAlertAction(title: "Yes",
                                        style: .default) { _ in
                                         
-                                        let contacts = self.ref.child(self.userID!).child("contacts")
-                                        
-                                        let newContact = contacts.child(self.contactName.text!)
-                                        
-                                        let post = ["address": self.contactAddress.text!,
-                                                    "coordinates": self.contactCoordinates] as [String : Any]
-                                        
-                                        newContact.setValue(post)
-                                        
+                                        self.addContactToFirebase()
                                         self.performSegue(withIdentifier: "unwindToContacts", sender: nil)
         }
         

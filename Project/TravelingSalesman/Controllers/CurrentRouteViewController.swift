@@ -5,7 +5,10 @@
 //  Created by Dennis Broekhuizen on 23-01-18.
 //  Copyright © 2018 Dennis Broekhuizen. All rights reserved.
 //
+//  This view controller will be presented when the user chooses to start a route from the RouteDetailViewController. The user will be asked to allow to share their location to compare it with the given waypoints in the route. Starting point and end point of the route won't be checked with the current location.
+//
 //  Current location tutorial: http://www.seemuapps.com/swift-get-users-location-gps-coordinates
+//  Also used parts of this tutorial: https://medium.com/lateral-view/geofences-how-to-implement-virtual-boundaries-in-the-real-world-f3fc4a659d40
 
 import UIKit
 import FirebaseAuth
@@ -16,22 +19,24 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
     
     @IBOutlet weak var openInMapsButton: UIButton!
     
+    // Declare location variables.
     var geocoder = CLGeocoder()
     let locationManager = CLLocationManager()
     var myLocation: CLLocation?
 
+    // General variables.
     var currentRoute: [Route] = []
-    var sectionTitles: [String] = ["Name", "Starting point", "Waypoint(s)", "End point"]
     var selectedAddress: String?
-    var desCoordinates: [CLLocation] = []
+    var waypointsCoordinates: [CLLocation] = []
+    var sectionTitles: [String] = ["Name", "Starting point", "Waypoint(s)", "End point"]
     
-    // Refrence to leaderboard table in database.
+    // Firebase reference.
     let ref = Database.database().reference(withPath: "users")
-    
     let userID = Auth.auth().currentUser?.uid
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Check and setup location manager.
         locationManager.requestAlwaysAuthorization()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -40,7 +45,13 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
         openInMapsButton.isEnabled = false
         openInMapsButton.setTitle("Select address to open in maps",for: .normal)
 
-        // Firebase.
+        getCurrentRouteFromFirebase()
+        
+        // Disable row selection.
+        tableView.allowsSelection = false
+    }
+    
+    func getCurrentRouteFromFirebase() {
         let currentUser = ref.child(self.userID!).child("routes")
         currentUser.observe(.value, with: { snapshot in
             // Create array for new items in database.
@@ -54,21 +65,24 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
             
             // Set new items to items array.
             self.currentRoute = newCurrentRoute
-            // If location services is enabled get the users location
-            let coordinates = self.currentRoute.last?.destinationsCoordinates
-            if let coordinates = coordinates {
-                self.desCoordinates = self.coordinatesToCLLocation(coordinates: coordinates)
-            }
-            if CLLocationManager.locationServicesEnabled() {
-                self.locationManager.startUpdatingLocation()
-            }
+            
+            self.compareCurrentLocationWithWaypoints()
             self.tableView.reloadData()
         })
-        
-        // Disable row selection.
-        tableView.allowsSelection = false
     }
     
+    func compareCurrentLocationWithWaypoints() {
+        // If location services is enabled get the users location
+        let coordinates = self.currentRoute.last?.destinationsCoordinates
+        if let coordinates = coordinates {
+            self.waypointsCoordinates = self.coordinatesToCLLocation(coordinates: coordinates)
+        }
+        if CLLocationManager.locationServicesEnabled() {
+            self.locationManager.startUpdatingLocation()
+        }
+    }
+    
+    // Convert waypoint coordinates retrieved from Firebase to CLLocation to check with users location.
     func coordinatesToCLLocation(coordinates: [String]) -> [CLLocation] {
         var convertedCoordinates: [CLLocation] = []
         for coordinate in coordinates {
@@ -130,7 +144,7 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
         return UITableViewCell()
     }
     
-    // Handling selection of rows in tableView.
+    // Allow selection of location rows in tableView and abbilty to open location in Apple Maps.
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else { return }
         switch (indexPath.section) {
@@ -159,6 +173,7 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
         }
     }
     
+    // Stop updating location if user chooses to stop route.
     @IBAction func stopRouteDidTouch(_ sender: Any) {
         let alert = UIAlertController(title: "Stop",
                                       message: "Are you sure you want to stop this route?",
@@ -168,7 +183,7 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
                                          style: .default)
         let saveAction = UIAlertAction(title: "Yes",
                                        style: .default) { _ in
-                                        
+                                        self.locationManager.stopUpdatingLocation()
                                         self.performSegue(withIdentifier: "stopRoute", sender: nil)
         }
         
@@ -178,6 +193,7 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
         present(alert, animated: true, completion: nil)
     }
     
+    // Open selected location from table view row in Apple Maps.
     @IBAction func didTapOpenInMaps(_ sender: Any) {
         let address = selectedAddress?.replacingOccurrences(of: " ", with: "")
         UIApplication.shared.open(NSURL(string: "http://maps.apple.com/?address=\(address!)")! as URL, options: [:])
@@ -196,17 +212,19 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
         present(alert, animated: true, completion: nil)
     }
     
-    // Print out the location to the console
+    // Retrieve current location from user.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             myLocation = location
-            for (index, destination) in desCoordinates.enumerated()  {
+            // Check current location with all waypoint in route.
+            for (index, destination) in waypointsCoordinates.enumerated()  {
                 if let myLocation = self.myLocation {
-                    let afstand = myLocation.distance(from: destination)
-                    print("De afstand van \(index) is \(afstand).")
-                    if afstand < 200 {
-                        print("kleiner")
-                        print(afstand)
+                    let calculatedDistance = myLocation.distance(from: destination)
+                    print("De afstand van \(index) is \(calculatedDistance).")
+                    // If distance to waypoint is less than 200 meters of current location show checkmark
+                    // in table view at specific waypoint row.
+                    if calculatedDistance < 200 {
+                        print("Reached waypoint")
                         let indexPath = IndexPath(row: index, section: 2)
                         guard let cell = self.tableView.cellForRow(at: indexPath) else { return }
                         cell.accessoryType = .checkmark
@@ -216,17 +234,17 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
         }
     }
     
-    // If we have been deined access give the user the option to change it
+    // If location tracking deined give the user the option to change it.
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if(status == CLAuthorizationStatus.denied) {
             showLocationDisabledPopUp()
         }
     }
     
-    // Show the popup to the user if we have been deined access
+    // Show popup to the user if location tracking is deined.
     func showLocationDisabledPopUp() {
-        let alertController = UIAlertController(title: "Background Location Access Disabled",
-                                                message: "We need your location to check it with the addresses in your route.",
+        let alertController = UIAlertController(title: "Location Access Disabled",
+                                                message: "We need your location to check it with the waypoints in your route.",
                                                 preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)

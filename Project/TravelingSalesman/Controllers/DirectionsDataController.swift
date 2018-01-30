@@ -26,6 +26,7 @@ class DirectionsDataController {
         
         // Remove whitespace and convert string to URL.
         let finalUrl = tempUrl.removingWhitespaces()
+        print(finalUrl)
         let url = URL(string: finalUrl)!
 
         // Perform API request.

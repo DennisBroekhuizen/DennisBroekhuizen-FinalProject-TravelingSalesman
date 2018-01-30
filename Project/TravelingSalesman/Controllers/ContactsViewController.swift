@@ -76,7 +76,7 @@ class ContactsViewController: UITableViewController {
     }
     
     func updateTableViewBackground() {
-        // Show no contacts view if users haven't stored contacts in firebase.
+        // Show 'no contacts view' if users haven't stored contacts in firebase.
         if self.contacts.count == 0 {
             self.tableView.backgroundView = self.noContactsView
             self.tableView.tableFooterView = UIView(frame: CGRect.zero)

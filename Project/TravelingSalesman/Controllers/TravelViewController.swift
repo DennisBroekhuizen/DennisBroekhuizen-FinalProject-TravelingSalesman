@@ -5,6 +5,7 @@
 //  Created by Dennis Broekhuizen on 22-01-18.
 //  Copyright © 2018 Dennis Broekhuizen. All rights reserved.
 //
+//  ViewController to show a user their saved routes in Firebase if they have. User can select a route to start traveling with this route. Users can also delete routes from firebase.
 
 import UIKit
 import FirebaseAuth
@@ -14,14 +15,13 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBOutlet var noDateView: UIView!
     @IBOutlet var loadingView: UIView!
-    
     @IBOutlet weak var tableView: UITableView!
+    
     var sectionTitles: [String] = ["Routes"]
     var routes: [Route] = []
     
-    // Refrence to leaderboard table in database.
+    // Firebase reference.
     let ref = Database.database().reference(withPath: "users")
-    
     let userID = Auth.auth().currentUser?.uid
     
     override func viewDidLoad() {
@@ -43,7 +43,7 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let routesRef = ref.child(self.userID!).child("routes")
         
         routesRef.observe(.value, with: { snapshot in
-            // Create array for new items in database.
+            // Create array for new routes in database.
             var newRoutes: [Route] = []
             
             for item in snapshot.children {
@@ -52,7 +52,7 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 newRoutes.append(route)
             }
             
-            // Set new items to items array
+            // Set new routes to routes array
             self.routes = newRoutes
             self.tableView.reloadData()
             self.updateTableViewBackground()

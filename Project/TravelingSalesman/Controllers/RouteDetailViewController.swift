@@ -14,11 +14,11 @@ import FirebaseDatabase
 class RouteDetailViewController: UITableViewController {
     
     var chosenRoute: Route!
+    var sectionTitles: [String] = ["Date", "Starting point", "Waypoint(s)", "End point"]
     
+    // Firebase reference.
     let userID = Auth.auth().currentUser?.uid
     let ref = Database.database().reference(withPath: "users")
-
-    var sectionTitles: [String] = ["Date", "Starting point", "Waypoint(s)", "End point"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
