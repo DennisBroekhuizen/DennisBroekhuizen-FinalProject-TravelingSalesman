@@ -19,7 +19,7 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Dismiss keyboard when the user taps the screen.
+        // Dismiss keyboard at tap on screen.
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tap)))
     }
     

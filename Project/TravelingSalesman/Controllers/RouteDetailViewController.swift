@@ -36,6 +36,7 @@ class RouteDetailViewController: UITableViewController {
         return 4
     }
     
+    // Setup the table view
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 2 {
             return chosenRoute.destinations.count
@@ -44,7 +45,6 @@ class RouteDetailViewController: UITableViewController {
         }
     }
     
-    // Declaration of tableView.
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
         switch (indexPath.section) {
@@ -65,7 +65,6 @@ class RouteDetailViewController: UITableViewController {
         return UITableViewCell()
     }
     
-    // Declaration of section titles in tableView.
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section >= 0 && section <= 3 {
             return sectionTitles[section]
