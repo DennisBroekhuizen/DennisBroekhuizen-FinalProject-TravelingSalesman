@@ -45,3 +45,20 @@ Summary of important decisions made while making my final app.
 # Day 4
 * Fixed some bugs which caused my app to crash. For example: it's now required to fill in all fields in the planning screen, because when the optimize screen is missing some information it will crash the app. I also safely unwrapped some variables which also caused some problems sometimes.
 * Found out that it's not allowed to store forward slashes into Firebase keys. This happened when I used my app in the simulator, when storing the date as a key to firebase. The dateFormatter converted the date into a string with forward slashes because of the device language. Fixed it by setting the dateFormatter locale to nl_Nl. This will always convert a date to a string with dashes, which is allowed in a Firebase key.
+
+# Day 5
+* Officially decided not to implement a calendar in consultation with Martijn, because it will cost me to much time to implement this before the deadline. In order to compensate this, I decided to make it possible to choose saved addresses while planning a route. Because of this functionality all functions in my app will be useful.
+
+# Week 3
+
+# Day 1
+* Finished the implementation of choosing contacts from the PlanRouteViewController by making a new ViewController named SearchViewController. In this ViewController it is also possible to choose locations from the Google Places API.
+* Started to clean up my code, by deleting unused code and rewriting small parts of the app.
+* Started commenting some code.
+* Found a bug that I need to solve. When the user chooses a lot of locations as their waypoints while planning a route and the users presses the button 'plan route', the app will crash. Haven't found out exactly what's causing the problem.
+
+# Day 2
+* Solved the bug I found yesterday. The app crashed because it unexpectedly found nil while unwrapping the text of the UITextfield and the label of the date cell, when a lot of waypoints where added. Dequeuing the cells caused the problem.
+* Commented all of my code.
+* Added headers to all files.
+* Rearranged my GitHub repository by placing files in separate folders.
