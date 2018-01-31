@@ -14,6 +14,9 @@ import GooglePlaces
 
 class SearchViewController: UIViewController {
 
+    @IBOutlet var contactsLoadingView: UIView!
+    @IBOutlet var emptyContactsView: UIView!
+    
     // Declare array to load in all (filtered) contacts.
     var contacts: [Contact] = []
     var filteredContacts: [Contact] = []
@@ -35,13 +38,21 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        showLoadingContactsView()
         setupSearchController()
         getContactsFromFirebase()
         
         // Hide bottom border of navigation bar.
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    
+    func showLoadingContactsView() {
+        if contacts.count == 0 {
+            tableView.backgroundView = contactsLoadingView
+            // Remove row seperator line for tablerows.
+            tableView.tableFooterView = UIView(frame: CGRect.zero)
+        }
     }
     
     func setupSearchController() {
@@ -78,7 +89,20 @@ class SearchViewController: UIViewController {
             // Set new contacts to contacts array
             self.contacts = newContacts
             self.tableView.reloadData()
+            self.updateBackgroundView()
         })
+    }
+    
+    func updateBackgroundView() {
+        // Show 'empty contacts view' if users haven't stored contacts in firebase.
+        if contacts.count == 0 {
+            tableView.backgroundView = emptyContactsView
+            tableView.tableFooterView = UIView(frame: CGRect.zero)
+        } else {
+            // Clear background view if contacts are loaded.
+            tableView.backgroundView = nil
+            tableView.tableFooterView = nil
+        }
     }
     
     // MARK: - Search controller functions.

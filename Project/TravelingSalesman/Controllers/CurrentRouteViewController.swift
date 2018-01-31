@@ -195,8 +195,10 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
     
     // Open selected location from table view row in Apple Maps.
     @IBAction func didTapOpenInMaps(_ sender: Any) {
+        // Convert address with illegal characters.
         let address = selectedAddress?.replacingOccurrences(of: " ", with: "")
-        UIApplication.shared.open(NSURL(string: "http://maps.apple.com/?address=\(address!)")! as URL, options: [:])
+        let escapedAddress = address?.folding(options: .diacriticInsensitive, locale: .current)
+        UIApplication.shared.open(NSURL(string: "http://maps.apple.com/?address=\(escapedAddress!)")! as URL, options: [:])
     }
     
     @IBAction func infoButtonTapped(_ sender: Any) {

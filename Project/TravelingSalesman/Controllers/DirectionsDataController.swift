@@ -25,9 +25,12 @@ class DirectionsDataController {
         tempUrl += "&key=AIzaSyDX7yfEqlktigCmvfMG6RgLEOqGXYLULwg"
         
         // Remove whitespace and convert string to URL.
-        let finalUrl = tempUrl.removingWhitespaces()
-        print(finalUrl)
-        let url = URL(string: finalUrl)!
+        let noSpaceURL = tempUrl.replacingOccurrences(of: " ", with: "%20", options: NSString.CompareOptions.literal, range:nil)
+        
+        // Replace accented characters with normal characters.
+        let escapedURL = noSpaceURL.folding(options: .diacriticInsensitive, locale: .current)
+        
+        let url = URL(string: escapedURL)!
 
         // Perform API request.
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
@@ -43,11 +46,3 @@ class DirectionsDataController {
         task.resume()
     }
 }
-
-// Extension to remove whitespace from string.
-extension String {
-    func removingWhitespaces() -> String {
-        return components(separatedBy: .whitespaces).joined()
-    }
-}
-

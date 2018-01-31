@@ -395,6 +395,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="B5w-dp-QyO"/>
                     <connections>
+                        <outlet property="contactsLoadingView" destination="Wav-ll-d3w" id="pqe-Uk-WN6"/>
+                        <outlet property="emptyContactsView" destination="lYl-K7-pCT" id="aQ2-7n-H0c"/>
                         <outlet property="segmentedControl" destination="Kfk-ZB-oWP" id="CEg-0w-g1A"/>
                         <outlet property="tableView" destination="XFv-Cg-NKS" id="p8z-VR-oPr"/>
                         <segue destination="FE3-nD-XJV" kind="unwind" identifier="unwindToPlanRoute" unwindAction="unwindToPlanRoute:" id="jY2-TL-uLM"/>
@@ -405,17 +407,34 @@
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No saved contacts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f5c-bD-AUO">
-                            <rect key="frame" x="49" y="53.5" width="142.5" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="T7I-yO-WHr">
+                            <rect key="frame" x="15" y="39.5" width="211" height="49.5"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No saved contacts" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f5c-bD-AUO">
+                                    <rect key="frame" x="0.0" y="0.0" width="211" height="20.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add contacts in the contacts tab or" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7OD-J1-JS9">
+                                    <rect key="frame" x="0.0" y="20.5" width="211" height="14.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="choose a location with Google Places" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QtZ-NH-iBE">
+                                    <rect key="frame" x="0.0" y="35" width="211" height="14.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="f5c-bD-AUO" firstAttribute="centerX" secondItem="lYl-K7-pCT" secondAttribute="centerX" id="FTC-eI-2Ec"/>
-                        <constraint firstItem="f5c-bD-AUO" firstAttribute="centerY" secondItem="lYl-K7-pCT" secondAttribute="centerY" id="ngP-1m-67e"/>
+                        <constraint firstItem="T7I-yO-WHr" firstAttribute="centerY" secondItem="lYl-K7-pCT" secondAttribute="centerY" id="acA-OU-crW"/>
+                        <constraint firstItem="T7I-yO-WHr" firstAttribute="centerX" secondItem="lYl-K7-pCT" secondAttribute="centerX" id="jZG-2x-n5f"/>
                     </constraints>
                     <viewLayoutGuide key="safeArea" id="e3P-1Q-rfd"/>
                 </view>

@@ -67,7 +67,11 @@ class PlanRouteViewController: UITableViewController {
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "dateCell", for: indexPath) as! DateCell
-            cell.dateLabel.text = "Choose date"
+            if date != nil {
+                cell.dateLabel.text = date
+            } else {
+                cell.dateLabel.text = "Choose date"
+            }
             
             cell.viewController = self
             return cell
@@ -163,10 +167,13 @@ class PlanRouteViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func clearVariables() {
-        let indexpathForRouteName = IndexPath(row: 0, section: 0)
-        let routeNameCell = tableView.dequeueReusableCell(withIdentifier: "routeNameCell", for: indexpathForRouteName) as! RouteNameCell
+    func resetVariables() {
+        let indexPathForRouteName = IndexPath(row: 0, section: 0)
+        let routeNameCell = tableView.dequeueReusableCell(withIdentifier: "routeNameCell", for: indexPathForRouteName) as! RouteNameCell
         routeNameCell.textField.text = ""
+        let indexPathForDateCell = IndexPath(row: 0, section: 1)
+        let dateCell = tableView.dequeueReusableCell(withIdentifier: "dateCell", for: indexPathForDateCell) as! DateCell
+        dateCell.dateLabel.text = "Choose date"
         routeName = nil
         date = nil
         startingPoint = nil
@@ -223,7 +230,7 @@ class PlanRouteViewController: UITableViewController {
         
         // Clear previous userinput if user saves a route.
         if sender.source is OptimizeRouteViewController {
-            clearVariables()
+            resetVariables()
             tableView.reloadData()
         }
     }
