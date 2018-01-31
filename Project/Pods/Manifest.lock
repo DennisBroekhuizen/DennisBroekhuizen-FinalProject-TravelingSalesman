@@ -38,7 +38,6 @@ PODS:
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.3)
   - GoogleToolboxForMac/NSString+URLArguments (2.1.3)
   - GTMSessionFetcher/Core (1.1.12)
-  - HTMLString (4.0.1)
   - leveldb-library (1.20)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
@@ -51,7 +50,6 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - GooglePlaces
-  - HTMLString (~> 4.0)
 
 SPEC CHECKSUMS:
   Firebase: dbfb98ccec2dcfcd21ab9cc1b4981a3f3c8c5e26
@@ -64,10 +62,9 @@ SPEC CHECKSUMS:
   GooglePlaces: dd70d9d71ea1c7944846afe67de3712c99b30a77
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
-  HTMLString: 8d9a8a8aaf63dd52c5b8cd9a38e14da52f753210
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
 
-PODFILE CHECKSUM: a2f9ef7ef6167e38b1f48ed86d824cf4d28df9ea
+PODFILE CHECKSUM: 320f3976db8733364b82fec7abbd2db60903c2e7
 
 COCOAPODS: 1.2.0
