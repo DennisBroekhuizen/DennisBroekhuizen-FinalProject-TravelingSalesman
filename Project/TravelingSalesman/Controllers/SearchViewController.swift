@@ -57,10 +57,10 @@ class SearchViewController: UIViewController {
     
     func setupSearchController() {
         searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.tintColor = UIColor.white
-        searchController.searchBar.placeholder = "Search Contacts"
         searchController.searchBar.showsCancelButton = true
+        searchController.searchBar.placeholder = "Search"
+        searchController.searchBar.tintColor = UIColor.white
+        searchController.obscuresBackgroundDuringPresentation = false
         definesPresentationContext = true
         
         // Put the search bar in the navigation bar.
