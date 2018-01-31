@@ -42,7 +42,7 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func getRoutesFromFirebase() {
         let routesRef = ref.child(self.userID!).child("routes")
         
-        routesRef.observe(.value, with: { snapshot in
+        routesRef.queryOrdered(byChild: "routes").observe(.value, with: { snapshot in
             // Create array for new routes in database.
             var newRoutes: [Route] = []
             

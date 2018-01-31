@@ -58,7 +58,7 @@ class ContactsViewController: UITableViewController {
     
     func getContactsFromFirebase() {
         let currentUser = ref.child(self.userID!).child("contacts")
-        currentUser.observe(.value, with: { snapshot in
+        currentUser.queryOrdered(byChild: "contacts").observe(.value, with: { snapshot in
             // Create array for new items in database.
             var newContacts: [Contact] = []
 

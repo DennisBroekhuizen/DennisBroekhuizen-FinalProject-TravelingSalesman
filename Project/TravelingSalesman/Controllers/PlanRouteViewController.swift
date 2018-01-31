@@ -129,7 +129,11 @@ class PlanRouteViewController: UITableViewController {
             self.performSegue (withIdentifier: "searchController", sender: self)
         case [4,0]:
             sectionSelected = 4
-            self.performSegue (withIdentifier: "searchController", sender: self)
+            if waypoints.count == 23 {
+                reachedMaxWaypoints()
+            } else {
+                self.performSegue (withIdentifier: "searchController", sender: self)
+            }
         case [5,0]:
             sectionSelected = 5
             self.performSegue (withIdentifier: "searchController", sender: self)
@@ -180,6 +184,15 @@ class PlanRouteViewController: UITableViewController {
         endPoint = nil
         waypoints = []
         waypointCoordinates = []
+    }
+    
+    func reachedMaxWaypoints() {
+        let alert = UIAlertController(title: "Maximum waypoints reached",
+                                      message: "You can't add more than 23 waypoints.",
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
     }
     
     // Pass data to next OptimizeViewController to optimize route.

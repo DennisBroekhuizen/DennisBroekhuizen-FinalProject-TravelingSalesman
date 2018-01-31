@@ -51,7 +51,7 @@ class OptimizeRouteViewController: UITableViewController {
                     
                     // Return if status of API isn't 'OK'.
                     if directions.status! != "OK" {
-                        self.errorOptimize()
+                        self.errorOptimize(status: directions.status!)
                         return
                     }
                     
@@ -72,6 +72,8 @@ class OptimizeRouteViewController: UITableViewController {
                     self.tableView.reloadData()
                     self.saveButton.isEnabled = true
                 }
+            } else {
+                self.invalidRequest()
             }
         }
         
@@ -126,6 +128,15 @@ class OptimizeRouteViewController: UITableViewController {
         }
     }
     
+    func invalidRequest() {
+        let alert = UIAlertController(title: "Invalid request",
+                                      message: "One ore more of your locations are containing illegal characters or your route can't be optimized. Please choose other locations.",
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default)
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     func errorMessage() {
         let alert = UIAlertController(title: "Oops", message: "Something went wrong while saving your route. Please try again.", preferredStyle: .alert)
         
@@ -135,8 +146,8 @@ class OptimizeRouteViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func errorOptimize() {
-        let alert = UIAlertController(title: "Oops", message: "This route can't be optimized. Make sure you did choose locations that can be travelled by car from each other.", preferredStyle: .alert)
+    func errorOptimize(status: String) {
+        let alert = UIAlertController(title: "Oops", message: "This route can't be optimized. Make sure you did choose locations that can be travelled by car from each other. Status: \(status)", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "Ok", style: .default)
         

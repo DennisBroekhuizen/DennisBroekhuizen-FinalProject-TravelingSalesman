@@ -53,7 +53,7 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
     
     func getCurrentRouteFromFirebase() {
         let currentUser = ref.child(self.userID!).child("routes")
-        currentUser.observe(.value, with: { snapshot in
+        currentUser.queryOrdered(byChild: "routes").observe(.value, with: { snapshot in
             // Create array for new items in database.
             var newCurrentRoute: [Route] = []
             
@@ -196,7 +196,7 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
     // Open selected location from table view row in Apple Maps.
     @IBAction func didTapOpenInMaps(_ sender: Any) {
         // Convert address with illegal characters.
-        let address = selectedAddress?.replacingOccurrences(of: " ", with: "")
+        let address = selectedAddress?.replacingOccurrences(of: " ", with: "%20")
         let escapedAddress = address?.folding(options: .diacriticInsensitive, locale: .current)
         UIApplication.shared.open(NSURL(string: "http://maps.apple.com/?address=\(escapedAddress!)")! as URL, options: [:])
     }

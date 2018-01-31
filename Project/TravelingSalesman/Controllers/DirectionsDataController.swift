@@ -29,8 +29,9 @@ class DirectionsDataController {
         
         // Replace accented characters with normal characters.
         let escapedURL = noSpaceURL.folding(options: .diacriticInsensitive, locale: .current)
-        
-        let url = URL(string: escapedURL)!
+
+        let finalURL = URL(string: escapedURL)
+        guard let url = finalURL else { completion(nil); return }
 
         // Perform API request.
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
@@ -45,4 +46,5 @@ class DirectionsDataController {
         }
         task.resume()
     }
+    
 }
