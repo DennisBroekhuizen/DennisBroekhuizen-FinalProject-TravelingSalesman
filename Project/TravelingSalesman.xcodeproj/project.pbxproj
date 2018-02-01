@@ -26,7 +26,6 @@
 		42915B0220172FE100D3D648 /* CurrentRouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42915B0120172FE100D3D648 /* CurrentRouteViewController.swift */; };
 		42B3A1C0200E1D2900C884C4 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B3A1BF200E1D2900C884C4 /* DateCell.swift */; };
 		42B63B292020C1D90021BA8D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42B63B282020C1D90021BA8D /* GoogleService-Info.plist */; };
-		42B63B2B2020C73D0021BA8D /* SharedFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B63B2A2020C73D0021BA8D /* SharedFunctions.swift */; };
 		42E94F852007B3CB00FE5DCA /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E94F842007B3CB00FE5DCA /* RegisterViewController.swift */; };
 		42E94F8720080D1D00FE5DCA /* OptimizeRouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E94F8620080D1D00FE5DCA /* OptimizeRouteViewController.swift */; };
 		42E94F892008103900FE5DCA /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E94F882008103900FE5DCA /* Route.swift */; };
@@ -55,7 +54,6 @@
 		42915B0120172FE100D3D648 /* CurrentRouteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentRouteViewController.swift; sourceTree = "<group>"; };
 		42B3A1BF200E1D2900C884C4 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DateCell.swift; path = "TravelingSalesman/Models/Custom cells/DateCell.swift"; sourceTree = SOURCE_ROOT; };
 		42B63B282020C1D90021BA8D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
-		42B63B2A2020C73D0021BA8D /* SharedFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedFunctions.swift; sourceTree = "<group>"; };
 		42E94F842007B3CB00FE5DCA /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		42E94F8620080D1D00FE5DCA /* OptimizeRouteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptimizeRouteViewController.swift; sourceTree = "<group>"; };
 		42E94F882008103900FE5DCA /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
@@ -133,7 +131,6 @@
 				42E94F882008103900FE5DCA /* Route.swift */,
 				42379C6E2011E6CF00BF68EF /* DirectionsData.swift */,
 				42915AF32012AC3100D3D648 /* ContactsData.swift */,
-				42B63B2A2020C73D0021BA8D /* SharedFunctions.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -328,7 +325,6 @@
 				42379C712011E99800BF68EF /* DirectionsDataController.swift in Sources */,
 				42B3A1C0200E1D2900C884C4 /* DateCell.swift in Sources */,
 				42915AF62015FBFE00D3D648 /* TravelViewController.swift in Sources */,
-				42B63B2B2020C73D0021BA8D /* SharedFunctions.swift in Sources */,
 				42915AF42012AC3100D3D648 /* ContactsData.swift in Sources */,
 				42915B002016910800D3D648 /* SearchViewController.swift in Sources */,
 				42E94F892008103900FE5DCA /* Route.swift in Sources */,

@@ -123,7 +123,7 @@ extension AddContactViewController: GMSAutocompleteViewControllerDelegate {
     }
     
     func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
-        // TODO: handle the error.
+        // Print error to console.
         print("Error: ", error.localizedDescription)
     }
     

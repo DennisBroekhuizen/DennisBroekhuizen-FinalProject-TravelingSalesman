@@ -33,7 +33,6 @@ class RegisterViewController: UIViewController {
             Auth.auth().createUser(withEmail: email, password: password, completion: { user, error in
                 // Check if there might be an error from firebase.
                 if let firebaseError = error {
-                    print(firebaseError.localizedDescription)
                     self.registerErrorLabel.text = firebaseError.localizedDescription
                     return
                 }
@@ -45,7 +44,6 @@ class RegisterViewController: UIViewController {
                 self.registerErrorLabel.text = ""
                 self.registerEmailTextField.text = ""
                 self.registerPasswordTextField.text = ""
-                print("Successfully created an account!")
             })
         }
         // Dismiss keyboard when the button is tapped.

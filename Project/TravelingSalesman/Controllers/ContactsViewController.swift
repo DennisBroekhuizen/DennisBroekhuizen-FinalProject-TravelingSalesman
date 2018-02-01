@@ -63,7 +63,7 @@ class ContactsViewController: UITableViewController {
             var newContacts: [Contact] = []
 
             for item in snapshot.children {
-                // Declare and append elements from database to array
+                // Declare and append elements from database to array.
                 let contact = Contact(snapshot: item as! DataSnapshot)
                 newContacts.append(contact)
             }
@@ -87,7 +87,7 @@ class ContactsViewController: UITableViewController {
         }
     }
     
-    // MARK: - Table view data source
+    // MARK: - Table view data source.
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1

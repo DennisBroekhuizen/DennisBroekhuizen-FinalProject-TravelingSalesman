@@ -47,12 +47,12 @@ class TravelViewController: UIViewController, UITableViewDelegate, UITableViewDa
             var newRoutes: [Route] = []
             
             for item in snapshot.children {
-                // Declare and append elements from database to array
+                // Declare and append elements from database to array.
                 let route = Route(snapshot: item as! DataSnapshot)
                 newRoutes.append(route)
             }
             
-            // Set new routes to routes array
+            // Set new routes to routes array.
             self.routes = newRoutes
             self.tableView.reloadData()
             self.updateTableViewBackground()

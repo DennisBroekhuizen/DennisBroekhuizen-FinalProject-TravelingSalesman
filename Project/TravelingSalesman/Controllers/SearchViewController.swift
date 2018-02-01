@@ -81,7 +81,7 @@ class SearchViewController: UIViewController {
             var newContacts: [Contact] = []
             
             for item in snapshot.children {
-                // Declare and append elements from database to array
+                // Declare and append elements from database to array.
                 let contact = Contact(snapshot: item as! DataSnapshot)
                 newContacts.append(contact)
             }
@@ -217,7 +217,7 @@ extension SearchViewController: GMSAutocompleteViewControllerDelegate {
     }
     
     func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
-        // TODO: handle the error.
+        // Print error to console.
         print("Error: ", error.localizedDescription)
     }
     

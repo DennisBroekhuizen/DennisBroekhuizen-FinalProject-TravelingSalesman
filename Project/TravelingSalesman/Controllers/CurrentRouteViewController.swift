@@ -72,7 +72,7 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
     }
     
     func compareCurrentLocationWithWaypoints() {
-        // If location services is enabled get the users location
+        // If location services is enabled get the users location.
         let coordinates = self.currentRoute.last?.destinationsCoordinates
         if let coordinates = coordinates {
             self.waypointsCoordinates = self.coordinatesToCLLocation(coordinates: coordinates)
@@ -95,15 +95,15 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
         return convertedCoordinates
     }
     
-    // MARK: - Table view data source
+    // MARK: - Table view data source.
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
+        // #warning Incomplete implementation, return the number of sections.
         return 4
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+        // #warning Incomplete implementation, return the number of rows.
         if section == 2 {
             let lastRoute = currentRoute.last
             if let lastRoute = lastRoute {
@@ -156,7 +156,6 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
             selectedAddress = cell.textLabel?.text
             openInMapsButton.setTitle("Open address in maps",for: .normal)
             openInMapsButton.isEnabled = true
-            print(selectedAddress!)
         case 3:
             selectedAddress = cell.textLabel?.text
             openInMapsButton.setTitle("Open address in maps",for: .normal)
@@ -222,11 +221,9 @@ class CurrentRouteViewController: UITableViewController, CLLocationManagerDelega
             for (index, destination) in waypointsCoordinates.enumerated()  {
                 if let myLocation = self.myLocation {
                     let calculatedDistance = myLocation.distance(from: destination)
-                    print("De afstand van \(index) is \(calculatedDistance).")
                     // If distance to waypoint is less than 200 meters of current location show checkmark
                     // in table view at specific waypoint row.
                     if calculatedDistance < 200 {
-                        print("Reached waypoint")
                         let indexPath = IndexPath(row: index, section: 2)
                         guard let cell = self.tableView.cellForRow(at: indexPath) else { return }
                         cell.accessoryType = .checkmark

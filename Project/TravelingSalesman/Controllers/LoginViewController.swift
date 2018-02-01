@@ -34,12 +34,12 @@ class LoginViewController: UIViewController {
         view.endEditing(true)
     }
     
-    // Perfom segue to main screen
+    // Perfom segue to main screen.
     func presentMainScreen() {
         self.performSegue(withIdentifier: "loginSegue", sender: nil)
     }
     
-    // Clear inputfields and labels
+    // Clear inputfields and labels.
     func clearUserInput() {
         self.errorLabel.text = ""
         self.emailTextField.text = ""
@@ -52,7 +52,6 @@ class LoginViewController: UIViewController {
             Auth.auth().signIn(withEmail: email, password: password, completion: { user, error in
                 // Check if there might be an error from firebase.
                 if let firebaseError = error {
-                    print(firebaseError.localizedDescription)
                     self.errorLabel.text = firebaseError.localizedDescription
                     return
                 }
@@ -62,7 +61,6 @@ class LoginViewController: UIViewController {
                 
                 // Clear inputfields and labels after logging in successfully.
                 self.clearUserInput()
-                print("Successfully logged in!")
             })
         }
         // Dismiss keyboard when the button is tapped.

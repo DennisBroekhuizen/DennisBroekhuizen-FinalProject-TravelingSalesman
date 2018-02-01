@@ -208,7 +208,6 @@ class PlanRouteViewController: UITableViewController {
             let route = Route(name: routeName, date: date, startingPoint: startingPoint, destinations: waypoints, destinationsCoordinates: waypointCoordinates, endPoint: endPoint)
             let optimizeRouteViewController = segue.destination as! OptimizeRouteViewController
             optimizeRouteViewController.optimizedRoute = route
-            print("De coordinaten: \(waypointCoordinates)")
         }
     }
     
@@ -269,7 +268,6 @@ class PlanRouteViewController: UITableViewController {
                                         do {
                                             try Auth.auth().signOut()
                                             self.dismiss(animated: true, completion: nil)
-                                            print("Logged out successfully.")
                                         } catch {
                                             print("Something went wrong while logging out.")
                                         }
