@@ -35,7 +35,7 @@ The user must be able to:
 
 ### Minimum viable product
 * Add addresses to plan a route
-* Save routes to a calander
+* Save routes to a calander (Skipped in consultation with Martijn)
 * Travel with an ordered efficient route by exporting the route to Google Maps or Apple Maps
 * When the route is started by the user, show checkmarks at visited places by checking a users current location when reopening the app. Resume the journey by picking the last checkmarked place and the next place in the list.
 
@@ -58,7 +58,22 @@ The user must be able to:
 App that let's you create routes and optimize them. Disadvantage: can't export route to a navigation app. Can't save routes to a calander for easy use as a businessman.
 
 [Webiste optimap](http://www.gebweb.net/optimap/):
-Online simular solution. Hard to use on mobile phones. Only can save routes as a link. 
+Online simular solution. Hard to use on mobile phones. Only can save routes as a link.
 
 ### Hardest parts
 Share live location and give specific users permission to see chosen information, like lists of addresses of customers of a given company.
+
+## Sources of external code, images and font
+
+### Code
+* Search controller tutorial by [Tom Elliott](https://www.raywenderlich.com/157864/uisearchcontroller-tutorial-getting-started)
+* UIAlert with delay from Stack Overflow by [ronatory](https://stackoverflow.com/questions/27613926/dismiss-uialertview-after-5-seconds-swift)
+* Get Users Location GPS Coordinates tutorial by [Andrew](http://www.seemuapps.com/swift-get-users-location-gps-coordinates)
+* Looked into Geofencing by [Federico Nieto](https://medium.com/lateral-view/geofences-how-to-implement-virtual-boundaries-in-the-real-world-f3fc4a659d40)
+
+### Images
+* Tab bar icons by [Icons8](https://icons8.com/ios) under the '[Good Boy License](https://icons8.com/good-boy-license/)'
+* App icon by [Font Awesome](https://fontawesome.com/icons) under the '[Font Awesome Free](https://fontawesome.com/license)' license
+
+### Font
+* Arciform Typeface by [Matt Ellis](https://www.behance.net/gallery/30453085/Arciform-Free-Typeface) free to use for personal and commercial projects
