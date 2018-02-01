@@ -1,6 +1,6 @@
 # Dennis Broekhuizen Travlr: Traveling Salesman App
 
-[![BCH compliance](https://bettercodehub.com/edge/badge/DennisBroekhuizen/DennisBroekhuizen-FinalProject-TravelingSalesman?branch=master)](https://bettercodehub.com/)
+[![BCH compliance](https://bettercodehub.com/edge/badge/DennisBroekhuizen/DennisBroekhuizen-FinalProject-TravelingSalesman?branch=master)](https://bettercodehub.com/) ![alttext](https://camo.githubusercontent.com/d3df899a102b55da861042ec3f6452e2f430f71b/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f53776966742d342e302d6565346633372e737667)
 
 ## Problem statement
 The traveling salesman problem is a problem that hasn't been solved in the mobile world, in a good way yet, in my opinion. People who travel a lot and need to visit more then two addresses a day, have to plan their route in an efficient way. The more addresses you add, the more complex the problem becomes. So when someone has to visit 10 addresses a day, it comes in use to let a computer solve their problem and returns the most efficient route. Also people who are planning a roadtrip and would like to visit a certain amount of places, have the same problem to solve.
@@ -84,3 +84,6 @@ Share live location and give specific users permission to see chosen information
 
 ### Font
 * Arciform Typeface by [Matt Ellis](https://www.behance.net/gallery/30453085/Arciform-Free-Typeface) free to use for personal and commercial projects
+
+## License
+This project is available under the MIT License. For more information see the full [LICENSE](https://github.com/DennisBroekhuizen/DennisBroekhuizen-FinalProject-TravelingSalesman/blob/master/LICENSE).
