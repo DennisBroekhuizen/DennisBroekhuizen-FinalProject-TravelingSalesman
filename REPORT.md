@@ -1,7 +1,19 @@
 # Dennis Broekhuizen Report Travlr
 
 ## Short description of the App
-Travlr is a route planner app that tries to solve the traveling salesman problem (TSP) as good as possible. Users of the app can input a maximum of 23 waypoints they want to visit, including a starting point and an end point. Travlr will rearrange the waypoints in an efficient order, so users doesn't have to crack their brains about the TSP.
+
+<table>
+  <tr>
+    <td rowspan="6">
+       Travlr is a route planner app that tries to solve the traveling salesman problem (TSP) as good as possible. Users of the app can input a maximum of 23 waypoints they want to visit, including a starting point and an end point. Travlr will rearrange the waypoints in an efficient order, so users doesn't have to crack their brains about the TSP.
+    </td>
+  </tr>
+  <tr>
+    <td>
+       <img src="https://raw.githubusercontent.com/DennisBroekhuizen/DennisBroekhuizen-FinalProject-TravelingSalesman/master/Docs/2.%20PlanRouteViewController.png" width="300">
+    </td>
+  </tr>
+</table>
 
 ## Description of the functionalities
 
