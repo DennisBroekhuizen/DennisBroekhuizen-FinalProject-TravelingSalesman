@@ -4,7 +4,7 @@
 
 <table>
   <tr>
-    <td rowspan="6">
+    <td rowspan="2">
        Travlr is a route planner app that tries to solve the traveling salesman problem (TSP) as good as possible. Users of the app can input a maximum of 23 waypoints they want to visit, including a starting point and an end point. Travlr will rearrange the waypoints in an efficient order, so users doesn't have to crack their brains about the TSP.
     </td>
   </tr>
