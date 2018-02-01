@@ -84,8 +84,8 @@ Share live location and give specific users permission to see chosen information
 * Arciform Typeface by [Matt Ellis](https://www.behance.net/gallery/30453085/Arciform-Free-Typeface) free to use for personal and commercial projects
 
 ## Author
-[Dennis Broekhuizen](https://github.com/DennisBroekhuizen)
-App submitted to Minor Programming University of Amsterdam.
+* [Dennis Broekhuizen](https://github.com/DennisBroekhuizen)
+* App submitted to Minor Programming University of Amsterdam.
 
 ## License
 Copyright © 2018 [Dennis Broekhuizen](https://github.com/DennisBroekhuizen). Released under the [MIT License](https://github.com/DennisBroekhuizen/DennisBroekhuizen-FinalProject-TravelingSalesman/blob/master/LICENSE).
