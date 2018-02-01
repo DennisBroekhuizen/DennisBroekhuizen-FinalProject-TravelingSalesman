@@ -60,6 +60,23 @@ The RouteDetailViewController will show all the details of inputted information 
 #### CurrentRouteViewController
 The CurrentRouteViewController is the class and view that handles traveling with the selected route. When the route is started, a table view with the starting point, waypoint(s) and end point is visible. The view will be presented modally. This will hiding the tab bar, so users can't use the app in a normal way while traveling. Users have the possibility to select a location and open it with Apple Maps. In this way people are able to navigate between locations. Another cool feature of this view controller is checking the users current location with waypoints in the route. When a user is near a waypoint, the location will be checkmarked as visited, by showing a checkmark in the table view. To allow this feature to work, the user has to view this view controller, because only then the location will constantly be checked. So when a users chooses to open a location in Apple Maps, the have to switch back to Travlr when they have reached their location. This will mostly always happen, because when the user resumes their route, the also reopen the app. Starting point and end point won't be checked with the current location of the user, because that isn't that interesting. To stop a route, users have to press the left top button. The app will stop tracking the current location of the user and users can start using the app in a normal way again.
 
+### Models
+A short description of the models used in the app.
+
+#### Route struct
+Struct of a route, to send routes between view controllers and save & retrieve routes from Firebase.
+
+#### Directions data struct
+Structure used for storing elements from Google Directions API.
+
+#### Contacts struct
+Structure used to store and retrieve contacts from database.
+
+### Data sources
+* Google Places API: Autocomplete iOS
+* Google Directions API
+* Firebase
+
 ## Challenges during development and changes
 
 ### Challenges
