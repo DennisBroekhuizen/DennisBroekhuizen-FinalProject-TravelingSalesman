@@ -62,3 +62,11 @@ Summary of important decisions made while making my final app.
 * Commented all of my code.
 * Added headers to all files.
 * Rearranged my GitHub repository by placing files in separate folders.
+
+# Day 3
+* Fixed a bug where it was possible to have illegal characters in my Google Directions API url. Found a solution to escape these characters. Decided not to allow locations with Chinese or Arabic characters. The will be shown a alert if some of the places contain illegal characters and will be asked to choose another location. 
+
+# Day 4
+* Started writing the final report
+* Updated the readme
+* Did some final small changes
